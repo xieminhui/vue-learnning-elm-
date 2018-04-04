@@ -19,7 +19,7 @@ module.exports = {
     },
     output: {
         path: config.build.assetRoot,//编译输出的静态资源根路径
-        publicPath: process.env.NODE_ENV === 'production' ? config.build.assetsPublicPath :  config.dev.assetsPublicPath// 正式发布环境下编译输出的上线路径的根路径
+        publicPath: process.env.NODE_ENV === 'production' ? config.build.assetsPublicPath :  config.dev.assetsPublicPath, // 正式发布环境下编译输出的上线路径的根路径
         filename: '[name].js' //编译输出的文件名
     },
     resolve: {

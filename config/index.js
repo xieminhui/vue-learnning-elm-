@@ -1,6 +1,6 @@
 var path = require('path')
 
-moudule.exports = {
+module.exports = {
     build: {
         env: {
             NODE_ENV: '"production"'//生产环境
