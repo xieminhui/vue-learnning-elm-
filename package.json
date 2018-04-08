@@ -2,7 +2,6 @@
   "name": "vue-learnning-elm-",
   "version": "1.0.0",
   "description": "Used for wepack and vue learning",
-  "main": "mian.js",
   "private": false,
   "scripts": {
     "dev": "cross-env NODE_ENV=online node build/dev-server.js",
@@ -67,9 +66,6 @@
   "engines": {
     "node": ">= 4.0.0",
     "npm": ">= 3.0.0"
-  },
-  "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
     "type": "git",
