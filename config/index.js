@@ -21,7 +21,7 @@ module.exports = {
         env: {
             NODE_ENV: '"development"'//开发环境
         },
-        port: 8000,//开发调试端口
+        port: 8090,//开发调试端口
         assetsSubDirectory: 'static',//编译输出的二级目录
         assetsPublicPath: '/',//编译打包发布的根目录，可配置为资源服务器域名或cdn域名
         context: [
@@ -38,7 +38,7 @@ module.exports = {
             '/payapi',
             '/m.ele.me@json',
         ],
-        proxypath: 'https://mainsite-restapi.ele.me',//代理
+        proxypath: 'http://cangdu.org:8001',//代理
         cssSourceMap:false// 是否开启 cssSourceMap(因为一些 bug 此选项默认关闭，详情可参考 https://github.com/webpack/css-loader#sourcemaps)
     }
 }
