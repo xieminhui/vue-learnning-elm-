@@ -1,4 +1,5 @@
 # node-elm 接口文档
+## 文档来自 https://github.com/bailicangdu/node-elm/blob/master/API.md#1%E8%8E%B7%E5%8F%96%E5%9F%8E%E5%B8%82%E5%88%97%E8%A1%A8
 ```
 
 域名: http://cangdu.org
