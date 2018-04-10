@@ -30,7 +30,7 @@ module.exports = {
         alias: {
             //默认路径代理，即import Vue from 'vue',会自动到'/vue/dist/vue.common.js'
             'vue$': 'vue/dist/vue.common.js',
-            'src': path.resolve(__dirname, '../src/assets'),
+            'src': path.resolve(__dirname, '../src'),
             'assets': path.resolve(__dirname, '../src/assets'),
             'components': path.resolve(__dirname, '../src/components')
         }
