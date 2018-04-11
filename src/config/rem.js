@@ -1,5 +1,5 @@
 /*
-*  用于设置不同屏幕大小的document字体大小
+*  用于设置不同屏幕大小的document字体大小，css用rem可以做到不同屏幕适应
 * */
 (function (doc ,win) {
     var docEl = doc.documentElement,
