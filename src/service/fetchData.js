@@ -1,11 +1,11 @@
 import fetch from '../config/fetch'
 
 /*
-*  获取定位
+*  获取定位，热门城市，所有城市
 * */
 
-export const guessCity = () =>fetch('/v1/cityes', {
-    type: 'guesss'
+export const guessCity = (type) => fetch('/v1/cities', {
+    type: type
 })
 
 
