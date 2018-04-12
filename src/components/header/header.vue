@@ -1,13 +1,14 @@
 <template>
     <header id='head_top'>
         <slot name="logo"></slot>
+
+        <router-link :to="userInfo?  '/profile' : '/login' " v-if='signinUp' class="head_login">
+            <svg class="user_avatar" v-if="userInfo">
+                <use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#user"></use>
+            </svg>
+            <span class="login_span" v-else>登录|注册</span>
+        </router-link>
     </header>
-    <router-link :to="userInfo?  '/profile' : '/login' " v-if='signinUp' class="head_login">
-        <svg class="user_avatar" v-if="userInfo">
-            <use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#user"></use>
-        </svg>
-        <span class="login_span" v-else>登录|注册</span>
-    </router-link>
 </template>
 
 <script>
@@ -47,6 +48,8 @@
         @include wh(100%,1.95rem);
     }
     .head_login{
-
+        @include sc(0.65rem, #fff);
+        @include ct;
+        right: 0.55rem;
     }
 </style>
