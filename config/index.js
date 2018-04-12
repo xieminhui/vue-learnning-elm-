@@ -21,7 +21,7 @@ module.exports = {
         env: {
             NODE_ENV: '"development"'//开发环境
         },
-        port: 8090,//开发调试端口
+        port: 9000,//开发调试端口
         assetsSubDirectory: 'static',//编译输出的二级目录
         assetsPublicPath: '/',//编译打包发布的根目录，可配置为资源服务器域名或cdn域名
         context: [
