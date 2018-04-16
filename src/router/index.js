@@ -16,6 +16,11 @@ export default [{
         {
             path: '/home',
             component: home
+        },
+        //点击城市
+        {
+            path: '/city/:cityId',
+            component: city
         }
     ]
 }]
