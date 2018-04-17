@@ -1,7 +1,8 @@
 import App from '../App'
 
-const home = r => require.ensure([], () => r(require('../page/home/home')), 'home')
-const city = r => require.ensure([], () => r(require('../page/city/city')), 'city')
+const home = r => require.ensure([], () => r(require('../page/home/home')), 'home');
+const city = r => require.ensure([], () => r(require('../page/city/city')), 'city');
+const msite = r => require.ensure([], () => r(require('../page/msite/msite')), 'msite');
 
 export default [{
     path: '/',
@@ -21,6 +22,11 @@ export default [{
         {
             path: '/city/:cityId',
             component: city
+        },
+        //商铺列表
+        {
+            path: '/msite',
+            component: msite
         }
     ]
 }]

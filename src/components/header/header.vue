@@ -12,7 +12,7 @@
             </svg>
             <span class="login_span" v-else>登录|注册</span>
         </router-link>
-        <section class="title_head ellipsis" v-if="headTitle">
+        <section class="title_head ellipsis" v-if="headTitle" @click="gotoUrl">
             <span class="title_text">{{headTitle}}</span>
         </section>
         <slot name="changecity"></slot>
@@ -40,6 +40,9 @@
             ...mapActions([
                 'getUserInfo'
             ]),
+            gotoUrl(){
+                this.$emit('goto')
+            }
         }
     }
 </script>

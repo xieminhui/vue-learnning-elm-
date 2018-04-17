@@ -88,7 +88,7 @@
                     searchHistory.push(temp);
                 }
                 setItem('searchHistory', searchHistory);
-                this.$router.push({path: '/mise', query:{geohash}});
+                this.$router.push({path: '/msite', query:{geohash}});
             }
         }
     }
