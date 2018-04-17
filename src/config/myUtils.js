@@ -14,9 +14,9 @@ export const setItem = (name, content) => {
 * */
 export const getItem = (name) =>{
     if(!name) return;
-    let data = window.localStorage.getItem(name);
+    let data = JSON.parse(window.localStorage.getItem(name));
     if(data){
-        return JSON.parse(data);
+        return data;
     }else{
         return '';
     }

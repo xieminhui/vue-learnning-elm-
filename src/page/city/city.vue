@@ -13,7 +13,7 @@
         </form>
         <header v-if="historyTitle" class="serachHistory">搜索历史</header>
         <ul class="searchresultList">
-            <li class="serchResult" v-for="(value,index) in serchResult" @click="gotoRestaurants(index, value.geohash)">
+            <li class="serchResult" v-for="(value,index) in searchResult" @click="gotoRestaurants(index, value.geohash)" :key="index">
                 <h4>{{value.name}}</h4>
                 <p>{{value.address}}</p>
             </li>
@@ -36,7 +36,7 @@
                 cityId:'',//当前城市id
                 searchValue:'',//地址搜索
                 historyTitle: true, // 默认显示搜索历史头部，点击搜索后隐藏
-                serchResult:[],//搜索结果
+                searchResult:[],//搜索结果
                 noResult:false//搜索无结果，提示
             }
         },
@@ -49,7 +49,9 @@
                 this.cityName = res.name;
             })
             //从localstorage获取搜索历史
-            this.searchResult = getItem('searchHistory');
+            if(getItem('searchHistory')){
+                this.searchResult = getItem('searchHistory');
+            }
         },
         components:{
             headTop
@@ -58,7 +60,7 @@
             serchPois(){
                 if(this.searchValue){
                     getAddressBySearch(this.cityId, this.searchValue).then(res =>{
-                        this.serchResult = res;
+                        this.searchResult = res;
                         this.historyTitle = false;
                         this.noResult = res.length? false : true;
                     })
@@ -78,11 +80,12 @@
                         }
                     }
                     if(i == searchHistory.length){
-                        this.searchHistory.push(temp);
+                        searchHistory.push(temp);
                     }
 
                 }else{
-                    this.searchHistory.push(temp);
+                    searchHistory = [];
+                    searchHistory.push(temp);
                 }
                 setItem('searchHistory', searchHistory);
                 this.$router.push({path: '/mise', query:{geohash}});
