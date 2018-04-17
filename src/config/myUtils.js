@@ -18,7 +18,7 @@ export const getItem = (name) =>{
     if(data){
         return JSON.parse(data);
     }else{
-        return {};
+        return '';
     }
 }
 

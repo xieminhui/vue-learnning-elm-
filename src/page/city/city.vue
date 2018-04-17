@@ -13,7 +13,7 @@
         </form>
         <header v-if="historyTitle" class="serachHistory">搜索历史</header>
         <ul class="searchresultList">
-            <li class="serchResult" v-for="(value,index) in serchResult" @click="gotoRestaurants">
+            <li class="serchResult" v-for="(value,index) in serchResult" @click="gotoRestaurants(index, value.geohash)">
                 <h4>{{value.name}}</h4>
                 <p>{{value.address}}</p>
             </li>
@@ -48,6 +48,8 @@
             getCityInfoByid(this.cityId).then(res => {
                 this.cityName = res.name;
             })
+            //从localstorage获取搜索历史
+            this.searchResult = getItem('searchHistory');
         },
         components:{
             headTop
@@ -62,8 +64,28 @@
                     })
                 }
             },
-            gotoRestaurants(){
+            /*
+            *  点击搜索结果进入下一页面拿出localstorage判断是否有值，有就push，没有
+            *  没有就新增
+            * */
+            gotoRestaurants(index, geohash){
+                let searchHistory = getItem('searchHistory');
+                let temp = this.searchResult[index];
+                if(searchHistory){
+                    for(var i=0;i<searchHistory.length;i++){
+                        if(searchHistory[i].geohash == geohash){
+                            break;
+                        }
+                    }
+                    if(i == searchHistory.length){
+                        this.searchHistory.push(temp);
+                    }
 
+                }else{
+                    this.searchHistory.push(temp);
+                }
+                setItem('searchHistory', searchHistory);
+                this.$router.push({path: '/mise', query:{geohash}});
             }
         }
     }
