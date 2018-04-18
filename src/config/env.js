@@ -9,7 +9,7 @@
 
 let baseUrl = '';
 let routerMode = 'history';
-let imgBaseUrl = 'http://cangdu.org:8001/img/';
+let imgBaseUrl = 'https://fuss10.elemecdn.com';
 
 if(process.env.NODE_ENV == 'development'){
 

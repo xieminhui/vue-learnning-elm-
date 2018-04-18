@@ -26,7 +26,7 @@
         </section>
         <section class="group_city_contianer">
             <ul class="letter_classify">
-                <li v-for='(value,key, index) in groupcity' :key="key"  class="letter_classify_li">
+                <li v-for='(value,key, index) in sortgroupcity' :key="key"  class="letter_classify_li">
                     <h4 class="city_title">{{key}}
                         <span v-if='index==0'>(按字母排序)</span>
                     </h4>
