@@ -8,6 +8,9 @@ Vue.use(Vuex)
 
 const state = {
     userInfo: null, //用户信息
+    geohash:'wtw3sm0q087',//经纬度坐标组成的字符串
+    latitude: '', // 当前位置纬度
+    longitude: '', // 当前位置经度
 }
 
 export default new Vuex.Store({
