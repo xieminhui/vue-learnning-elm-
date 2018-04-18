@@ -29,3 +29,13 @@ export const getAddressBySearch = (city_id, value) => fetch('/v1/pois', {
     keyword: value
 })
 
+/*
+* 根据经纬度获取城市信息
+* */
+
+export const fetchCityinfoBygeohash = (geohash) => fetch('/v2/pois/' + geohash);
+
+/*
+* 获取订餐分类
+* */
+export const fetchFoodType = () => fetch('/v2/index_entry');
