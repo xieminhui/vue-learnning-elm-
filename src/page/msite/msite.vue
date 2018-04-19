@@ -32,6 +32,7 @@
                 </svg>
                 <span class="shop_header_title">附近商家</span>
             </header>
+            <shop-list v-if="hasGetData" :geohash="geohash"></shop-list>
         </div>
     </div>
 </template>
@@ -41,6 +42,7 @@
     import 'src/plugins/swiper.min.js'
     import 'src/style/swiper.min.css'
     import headTop from '../../components/header/header'
+    import shopList from '../../components/common/shoplist'
     import { guessCity, fetchCityinfoBygeohash, fetchFoodType} from '../../service/fetchData'
     import {imgBaseUrl} from "../../config/env"
     export default {
@@ -50,6 +52,7 @@
                 cityName:'',//城市名字
                 foodTypes:[],//订餐分类
                 imgBaseUrl: imgBaseUrl,
+                hasGetData:false,//是否拿到shoplist数据
             }
         },
         computed:{
@@ -68,7 +71,7 @@
             }
             this.SAVE_GEOHASH(this.geohash);
             this.SAVE_LATANDLON(res);
-
+            this.hasGetData = true;
         },
         mounted(){
             fetchFoodType().then(res =>{
@@ -87,7 +90,8 @@
             })
         },
         components:{
-            headTop
+            headTop,
+            shopList
         },
         methods:{
             gotoHome(){
