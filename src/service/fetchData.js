@@ -39,3 +39,27 @@ export const fetchCityinfoBygeohash = (geohash) => fetch('/v2/pois/' + geohash);
 * 获取订餐分类
 * */
 export const fetchFoodType = () => fetch('/v2/index_entry');
+
+/**
+ * 获取msite商铺列表
+ */
+export const fetchShopList = (latitude, longitude, offset, restaurant_category_id='', restaurant_category_ids = '', order_by = '', delivery_mode = '', support_ids = [],limit = 20) =>{
+    let supportStr = '';
+    support_ids.forEach(item=>{
+        if(item.status){
+            supportStr += '$support_ids[]=' + item.id;
+        }
+    });
+    let data = {
+        latitude,
+        longitude,
+        offset,
+        limit,
+        restaurant_category_id,
+        order_by,
+        delivery_mode,
+        support_ids,
+        restaurant_category_ids
+    };
+    return fetch('/shopping/restaurants', data);
+}
