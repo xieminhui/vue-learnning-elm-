@@ -102,7 +102,7 @@
     }
 </script>
 
-<style lang="scss" scoped>
+<style lang="scss" scoped type="text/scss">
     @import "../../style/mixin";
 
     .search_svg{

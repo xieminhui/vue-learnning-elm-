@@ -170,7 +170,9 @@
                         }
                     }
                 }
-
+                .rating_order_num{
+                    display: flex;
+                }
             }
         }
 
