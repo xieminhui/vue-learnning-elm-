@@ -70,7 +70,7 @@
     import { fetchShopList } from "../../service/fetchData"
     import ratingStar from './ratingStar'
     import loading from './loading'
-
+    import { loadMore } from './mixin'
     export default {
         data(){
             return{
@@ -93,7 +93,7 @@
             loading
         },
         props:['geohash', 'restaurantCategoryId'],
-        mixins:[],
+        mixins:[loadMore],
         computed:{
             //从vuex取经纬度
             ...mapState([
