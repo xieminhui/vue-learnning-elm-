@@ -18,6 +18,8 @@ export const loadMore = {
                 el.addEventListener('touchstart', () => {
                     height = heightEl.clientHeight;
                     setTop = el.offsetTop;
+                    paddingBottom = getStyle(el, 'paddingBottom');
+                    marginBottom = getStyle(el, 'marginBottom');
                 }, false)
 
                 el.addEventListener('touchmove', () => {

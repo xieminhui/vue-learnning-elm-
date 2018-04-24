@@ -1,6 +1,6 @@
 <template>
     <div class="shoplist_container">
-        <ul v-load-more="loadMore" v-if="shopListArr.length" type="1">
+        <ul v-load-more="loaderMore" v-if="shopListArr.length" type="1">
             <router-link :to="{path:'shop', query:{geohash, id:item.id}}" v-for="item in shopListArr" tag='li' :key="item.id" class="shop_li">
                 <section>
                     <img :src="shopListImgBaseUrl+ item.image_path" class="shop_img">
@@ -33,7 +33,7 @@
                         <p class="fee">
                             ¥{{item.float_minimum_order_amount}}起送
                             <span class="segmentation">/</span>
-                            {{item.piecewise_agent_fee}}
+                            {{item.piecewise_agent_fee.tips}}
                         </p>
                         <p class="distance_time">
                             <span v-if="item.distance">{{item.distance}}
@@ -171,6 +171,9 @@
                     }
                 }
                 .rating_order_num{
+                    display: flex;
+                }
+                .rating_order_num_left{
                     display: flex;
                 }
             }

@@ -3,7 +3,7 @@
     先生成一个五颗黄色星星，接着再生成一个五颗灰色星星，然后传入rating控制黄色星星div长度，overflow：hidden
 -->
 <template>
-    <div class="rating_contianer">
+    <div class="rating_container">
         <section class="star_contianer">
             <svg class="grey_fill" v-for="num in 5" :key="num">
                 <use xmlns:xlink="http://www.w3.org/2001/xlink" xlink:href="#star"></use>
@@ -41,7 +41,7 @@
             position: relative;
             height: 100%;
         }
-        .star_container{
+        .star_contianer{
             position: absolute;
             display: flex;
             width: 2rem;
