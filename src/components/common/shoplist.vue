@@ -115,8 +115,18 @@
             async loaderMore(){
 
             },
-            zhunshi(){
-
+            zhunshi(item){
+                let zhunStatus;
+                if(item instanceof Array){
+                    item.forEach((value) => {
+                        if(value.icon_name === '准'){
+                            zhunStatus =  true;
+                        }
+                    })
+                }else {
+                    zhunStatus = false;
+                }
+                return zhunStatus;
             }
 
         },
@@ -128,6 +138,7 @@
 
 <style lang="scss" scoped type="text/scss">
     @import "../../style/mixin.scss";
+
     .shoplist_container{
         background: $fc;
         .shop_li{
@@ -160,7 +171,6 @@
                     .shop_detail_ul{
                         display: flex;
                         align-self: flex-end;
-                        justify-content: flex-end;
                         .supports{
                             @include sc(0.4rem, $fzGrey);
                             padding: 0.01rem;
@@ -172,10 +182,41 @@
                 }
                 .rating_order_num{
                     display: flex;
+                    margin-top: 0.52rem;
+                    .rating_order_num_left{
+                        display: flex;
+                        .rating_section{
+                            display: flex;
+                            align-items: stretch;
+                            .rating_num{
+                                @include sc(0.04rem, #ff6000);
+                                padding: 0 0.2rem;
+                                line-height: 0.8rem;
+                            }
+                        }
+                        .order_section{
+                            @include sc(0.04rem, #333);
+                            line-height: 0.8rem;
+                        }
+                    }
+                    .rating_order_num_right{
+                        display: flex;
+                        align-self: flex-end;
+                        margin-right: -0.8rem;
+                        .delivery_style{
+                            font-size: 0.4rem;
+                            border: 0.025rem solid #3190e8;
+                            border-radius: 0.08rem;
+                            padding: 0.02rem 0.08rem;
+                            margin-right: 0.02rem;
+                        }
+                        .delivery_left{
+                            background: #3190e8;
+                            color: $fc;
+                        }
+                    }
                 }
-                .rating_order_num_left{
-                    display: flex;
-                }
+
             }
         }
 

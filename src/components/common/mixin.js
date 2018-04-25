@@ -6,7 +6,7 @@ export const loadMore = {
         'load-more': {
             bind:(el, binding) => {
                 let windowHeight = window.screen.height;
-                let height,setTop,paddingBottom,marginBottom,requestFram,oldScrollTop,scrollEl,heightEl,scrollType = el.attribute.type && el.attribute.type.value;
+                let height,setTop,paddingBottom,marginBottom,requestFram,oldScrollTop,scrollEl,heightEl,scrollType = el.attributes.type && el.attributes.type.value;
                 let scrollReduce =2;
                 if(scrollType == 2){
                     scrollEl = el;
