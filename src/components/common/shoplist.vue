@@ -71,6 +71,7 @@
     import ratingStar from './ratingStar'
     import loading from './loading'
     import { loadMore } from './mixin'
+    import { showBack, animate } from '../../config/myUtils'
     export default {
         data(){
             return{
@@ -98,7 +99,6 @@
             //从vuex取经纬度
             ...mapState([
                  'latitude','longitude'
-
              ]),
         },
         methods : {
@@ -110,10 +110,34 @@
                     //每次请求都是20条，小于20说明没数据
                     this.touchend = true;
                 }
+                this.hideLoading();
+                //开始监听scrollTop的值，达到一定程度后显示返回顶部按钮
+                showBack(status => {
+                    this.showBackStatus = status;
+                })
             },
             //到达底部加载更多
             async loaderMore(){
+                if(this.touchend)return;
+                //因为异步请求的关系，先等请求数据回来再允许下一次请求，防止重复请求
+                if(this.preventRepeatRequest)return;
+                this.showLoading = true;
+                this.preventRepeatRequest =true;
 
+                //跳过之前请求的数据，类似分页
+                this.offset +=20;
+                let res = await fetchShopList(this.latitude, this.longitude, this.offset, this.restaurantCategoryId);
+                this.shopListArr = [...this.shopListArr, ...res];
+                //当数据小于20，表示没有数据了
+                if(res.length < 20){
+                    this.touchend = true;
+                    return;
+                }
+                this.preventRepeatReuqest = false;
+            },
+            //开发环境与编译环境loading隐藏方式不同
+            hideLoading(){
+                this.showLoading = false;
             },
             zhunshi(item){
                 let zhunStatus;
@@ -144,7 +168,8 @@
         .shop_li{
             display: flex;
             align-items: flex-start;
-            padding: 1.5rem 0.5rem;
+            border-bottom: 1px solid $bc;
+            padding: 1rem 0.5rem;
             .shop_img{
                 width: 2.7rem;
                 height: 2.7rem;
@@ -172,7 +197,7 @@
                         display: flex;
                         align-self: flex-end;
                         .supports{
-                            @include sc(0.4rem, $fzGrey);
+                            @include sc(0.04rem, $fzGrey);
                             padding: 0.01rem;
                             border: 1px solid $bc;
                             border-radius: 0.1rem;
@@ -183,6 +208,7 @@
                 .rating_order_num{
                     display: flex;
                     margin-top: 0.52rem;
+                    justify-content: space-between;
                     .rating_order_num_left{
                         display: flex;
                         .rating_section{
@@ -201,22 +227,39 @@
                     }
                     .rating_order_num_right{
                         display: flex;
-                        align-self: flex-end;
+                        align-items: center;
+                        min-width: 5rem;
+                        transform: scale(.7);
                         margin-right: -0.8rem;
+                        justify-content: flex-end;
                         .delivery_style{
                             font-size: 0.4rem;
                             border: 0.025rem solid #3190e8;
+                            padding: 0.04rem 0.08rem;
                             border-radius: 0.08rem;
-                            padding: 0.02rem 0.08rem;
                             margin-right: 0.02rem;
                         }
                         .delivery_left{
                             background: #3190e8;
                             color: $fc;
                         }
+                        .delivery_right{
+                            color: #3190e8;
+                        }
                     }
                 }
-
+                .fee_distance{
+                    display: flex;
+                    justify-content: space-between;
+                    margin-top: 0.4rem;
+                    @include sc(0.5rem, #666);
+                    .distance_time{
+                        color: #999;
+                        .order_time{
+                            color: #3190e8;
+                        }
+                    }
+                }
             }
         }
 
