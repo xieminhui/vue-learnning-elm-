@@ -3,6 +3,11 @@ import App from '../App'
 const home = r => require.ensure([], () => r(require('../page/home/home')), 'home');
 const city = r => require.ensure([], () => r(require('../page/city/city')), 'city');
 const msite = r => require.ensure([], () => r(require('../page/msite/msite')), 'msite');
+const shop = r => require.ensure([], () => r(require('../page/shop/shop')), 'shop');
+const foodDetail = r => require.ensure([], () => r(require('../page/shop/foodDetail')), 'foodDetail');
+const shopDetail = r => require.ensure([], () => r(require('../page/shop/shopDetail')), 'shopDetail');
+const shopSafe = r => require.ensure([], () => r(require('../page/shop/shopSafe')), 'shopSafe');
+
 
 export default [{
     path: '/',
@@ -27,6 +32,22 @@ export default [{
         {
             path: '/msite',
             component: msite
+        },
+        //商铺详情页
+        {
+            path: '/shop',
+            component:shop,
+            children: [{
+                path: 'footDetail',//食物详情页
+                component: foodDetail,
+            }, {
+                path: 'shopDetail',//商铺详情页
+                component: shopDetail,
+                children: [{
+                    path: 'shopSafe',//商铺安全认证页
+                    component: shopSafe
+                }]
+            }]
         }
     ]
 }]
