@@ -51,9 +51,9 @@
             </li>
         </ul>
         <p v-if="touchend" class="empty_data">没有更多了</p>
-        <aside class="return_top" @click="" v-if="showBackStatus">
+        <aside class="return_top" @click="backTop" v-if="showBackStatus">
             <svg class="back_top_svg">
-                <use xmlns:xink="http://www.w3.org/1999/xlink" xink:href="#backtop"></use>
+                <use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#backtop"></use>
             </svg>
         </aside>
         <div ref="abc" style="background-color: red"></div>
@@ -78,7 +78,7 @@
                 offset: 0, // 批次加载店铺列表，每次加载20个 limit = 20
                 shopListArr:[], // 店铺列表数据
                 shopListImgBaseUrl,
-                preventRepeatReuqest: false,//到达底部加载数据，防止重复加载
+                preventRepeatRequest: false,//到达底部加载数据，防止重复加载
                 showBackStatus: false, //显示返回顶部按钮
                 showLoading: true, //显示加载动画
                 touchend: false, //没有更多数据
@@ -112,8 +112,9 @@
                 }
                 this.hideLoading();
                 //开始监听scrollTop的值，达到一定程度后显示返回顶部按钮
+                let that = this;
                 showBack(status => {
-                    this.showBackStatus = status;
+                    that.showBackStatus = status;
                 })
             },
             //到达底部加载更多
@@ -128,12 +129,13 @@
                 this.offset +=20;
                 let res = await fetchShopList(this.latitude, this.longitude, this.offset, this.restaurantCategoryId);
                 this.shopListArr = [...this.shopListArr, ...res];
+                this.showLoading = false;
                 //当数据小于20，表示没有数据了
                 if(res.length < 20){
                     this.touchend = true;
                     return;
                 }
-                this.preventRepeatReuqest = false;
+                this.preventRepeatRequest = false;
             },
             //开发环境与编译环境loading隐藏方式不同
             hideLoading(){
@@ -151,6 +153,10 @@
                     zhunStatus = false;
                 }
                 return zhunStatus;
+            },
+            backTop(){
+                //会触发showBack 的touchend
+                animate(document.documentElement, {scrollTop: '0'}, 400,'ease-out');
             }
 
         },
@@ -262,6 +268,18 @@
                 }
             }
         }
-
+        .empty_data{
+            @include sc(0.5rem, #666);
+            text-align: center;
+            line-height: 2rem;
+        }
+        .return_top{
+            position: fixed;
+            bottom: 3rem;
+            right: 1rem;
+            .back_top_svg{
+                @include wh(2rem, 2rem);
+            }
+        }
     }
 </style>

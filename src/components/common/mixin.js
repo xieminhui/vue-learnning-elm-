@@ -13,7 +13,7 @@ export const loadMore = {
                     scrollEl = el;
                     heightEl = el.children[0];
                 }else {
-                    scrollEl = document.body;
+                    scrollEl = document.documentElement;
                     heightEl = el;
                 }
                 el.addEventListener('touchstart', () => {

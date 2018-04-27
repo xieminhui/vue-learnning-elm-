@@ -62,14 +62,14 @@ export const showBack = (callback) =>{
         showBackFun();
     },{passive:true});
     document.addEventListener('touchend', () => {
-        oldscrollTop = document.body.scrollTop;
+        oldscrollTop = document.documentElement.scrollTop;
         moveEnd();
     },{passive: true});
     const moveEnd = () => {
         requestFram = requestAnimationFrame(() => {
-            if(document.body.scrollTop != oldscrollTop){
+            if(document.documentElement.scrollTop != oldscrollTop){
                 moveEnd();
-                oldscrollTop = document.body.scrollTop;
+                oldscrollTop = document.documentElement.scrollTop;
             }else{
                 cancelAnimationFrame(requestFram);
             }
@@ -78,7 +78,7 @@ export const showBack = (callback) =>{
     }
     //判断是否达到目标点
     const showBackFun = () => {
-        if (document.body.scrollTop > 500) {
+        if (document.documentElement.scrollTop > 500) {
             callback(true);
         }else{
             callback(false);
