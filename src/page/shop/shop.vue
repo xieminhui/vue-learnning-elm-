@@ -24,7 +24,7 @@
                         </svg>
                         <footer class="description_footer" v-if="shopDetailData.activities.length >0" @click="">
                             <p class="ellipsis">
-                                <span class="tip_icon" :style="{background: '#'+shopDetailData.activities[0].icon_color,borderColor:'#'+shopDetailData.activities[0].icon_color}">
+                                <span class="tip_icon" :style="{background: '#'+shopDetailData.activities[0].icon_color, borderColor:'#'+shopDetailData.activities[0].icon_color}">
                                     {{shopDetailData.activities[0].icon_name}}
                                 </span>
                                 <span>{{shopDetailData.activities[0].description}}（APP用户专享）</span>
@@ -66,6 +66,66 @@
                     </svg>
                 </section>
             </transition>
+
+            <!--中间主体内容-->
+            <section class="change_show_type" ref="chooseType">
+                <div>
+                    <span :class="{activity_show:changeShowType == 'food' }" @click="changeShowType ='food'">商品</span>
+                </div>
+                <div>
+                    <span :class="{activity_show:changeShowType == 'rating' }" @click="changeShowType ='rating'">商品</span>
+                </div>
+            </section>
+            <transition name="fade-choose">
+                <section class="food_container" v-show="changeShowType == 'food'">
+                    <section class="menu_container">
+                        <section class="menu_left" id="wrapper_menu" ref="wrapperMenu">
+                            <ul>
+                                <li v-for="(item, index) in menuList" :key="index" class="menu_left_li" :class="{activity_menu: index == menuIndex}" @click="chooseMenu(index)">
+                                    <img :src="getImgPath(item.icon_url)" v-if="item.icon_url">
+                                    <span>{{item.name}}</span>
+                                    <span class="category_num" v-if="categoryNum[index] && item.type ==1">{{categoryNum[index]}}</span>
+                                </li>
+                            </ul>
+                        </section>
+                        <section class="menu_right" ref="menuFoodList">
+                            <ul>
+                                <li v-for="(item, index) in menuList" :key="index">
+                                    <header class="menu_detail_header">
+                                        <section class="menu_detail_header_left">
+                                            <strong class="menu_item_title">{{item.name}}</strong>
+                                            <span class="menu_item_description">{{item.description}}</span>
+                                        </section>
+                                        <span class="menu_detail_header_right" @click="showTitleDetail(index)"></span>
+                                        <!--title详情-->
+                                        <p class="description_tip" v-if="index == TitleDetailIndex">
+                                            <span>{{item.name}}</span>
+                                            {{item.description}}
+                                        </p>
+                                    </header>
+                                    <section v-for="(foods, foodindex) in item.foods" :key="item.foodindex" class="menu_detail_list">
+                                        <router-link :to="{path:'shop/foodDetail', query:{image_path:foods.image_path, description: foods.description, month_sales: foods.month_sales, name: foods.name, rating: foods.rating, rating_count: foods.rating_count, satisfy_rate: foods.satisfy_rate, foods, shopId}}" tag="div" class="menu_detail_link">
+                                            <section class="menu_food_img">
+                                                <img :src="imgBaseUrl + foods.image_path">
+                                            </section>
+                                            <section class="menu_food_description">
+                                                <h3 class="food_description_head">
+                                                    <strong class="description_foodname">{{foods.name}}</strong>
+                                                    <ul v-if="foods.attributes.length" class="attributes_ul">
+                                                        <li :for="(attribute, foodindex) in foods.attributes" :key="foodindex" :style="{color: '#' + attribute.icon_color, borderColor:'#' + attribute.icon_color}" :class="{attribute_new:attribute.icon_name == '新'}">
+
+                                                        </li>
+                                                    </ul>
+                                                </h3>
+                                            </section>
+                                        </router-link>
+                                    </section>
+                                </li>
+                            </ul>
+                        </section>
+                    </section>
+                </section>
+            </transition>
         </section>
     </div>
 </template>
@@ -74,13 +134,21 @@
     import {mapState, mapMutations} from 'vuex'
     import { shopListImgBaseUrl } from '../../config/env'
     import ratingStar from './ratingStar'
+    import {getImgPath } from '../../components/common/mixin'
+    import { imgBaseUrl } from '../../config/env'
+
     export default {
         data(){
             return{
+                geohash: '', //geohash位置信息
+                shopId: null, //商店id值
                 showLoading:true,//显示加载动画
                 showActivities:false,//显示活动详情页
                 shopListImgBaseUrl,
-                shopDetailData:null,//商铺详情
+                shopDetailData:[],//商铺详情
+                changeShowType: 'food',//切换显示商品或者评价
+                menuList: [], //食品列表
+                imgBaseUrl,//baseimgurl
             }
         },
         computed:{
