@@ -18,9 +18,54 @@
                             <p class="description_text">商家配送/{{shopDetailData.order_lead_time}}分钟到达/配送费¥{{shopDetailData.float_delivery_fee}}</p>
                             <p class="description_promotion ellipsis">公告：{{promotionInfo}}</p>
                         </section>
+                        <svg width="14" height="14" xmlns="http://www.w3.org/2000/svg" version='1.1' class="description_arrow">
+                            <!--M:moveto L:lineto-->
+                            <path d="M0 0 L8 7 L0 14" stroke="#fff" stroke-width="1" fill="none"/>
+                        </svg>
+                        <footer class="description_footer" v-if="shopDetailData.activities.length >0" @click="">
+                            <p class="ellipsis">
+                                <span class="tip_icon" :style="{background: '#'+shopDetailData.activities[0].icon_color,borderColor:'#'+shopDetailData.activities[0].icon_color}">
+                                    {{shopDetailData.activities[0].icon_name}}
+                                </span>
+                                <span>{{shopDetailData.activities[0].description}}（APP用户专享）</span>
+                            </p>
+                            <p>{{shopDetailData.activities.length}}个活动</p>
+                            <svg class="footer_arrow">
+                                <use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#arrow-left"></use>
+                            </svg>
+                        </footer>
                     </router-link>
                 </section>
             </header>
+            <!--显示活动详情-->
+            <transition name="fade">
+                <section class="activities_details" v-if="showActivities">
+                    <h2 class="activities_shoptitle">{{shopDetailData.name}}</h2>
+                    <h3 class="activities_ratingstar">
+                        <rating-star :rating="shopDetailData.rating"></rating-star>
+                    </h3>
+                    <section class="activities_list">
+                        <header class="activities_title_style"><span>优惠信息</span></header>
+                        <ul>
+                            <li v-for="item in shopDetailData.activities" :key="item.id">
+                                <span class="activities_icon" :style="{backgroundColor: '#' + item.icon_color, borderColor：'#' +item.icon_color}">
+                                    {{item.icon_name}}
+                                </span>
+                                <span>{{item.description}}（APP用户专享）</span>
+                            </li>
+                        </ul>
+                    </section>
+                    <section class="activities_shopinfo">
+                        <header class="activities_title_style"><span>商家公告</span></header>
+                        <p>{{promotionInfo}}</p>
+                    </section>
+                    <svg width="60" height="60" class="close_activities" @click.stop="">
+                        <circle cx="30" cy="30" r="25" stroke="#555" stroke-width='1' fill="none" />
+                        <line x1="22" y1="22" x2="38" y2="38" style="stroke:#999;stroke-width:2"/>
+                        <line x1="22" y1="38" x2="38" y2="22" style="stroke:#999;stroke-width:2"/>
+                    </svg>
+                </section>
+            </transition>
         </section>
     </div>
 </template>
@@ -28,24 +73,28 @@
 <script>
     import {mapState, mapMutations} from 'vuex'
     import { shopListImgBaseUrl } from '../../config/env'
+    import ratingStar from './ratingStar'
     export default {
         data(){
             return{
                 showLoading:true,//显示加载动画
                 showActivities:false,//显示活动详情页
                 shopListImgBaseUrl,
-                shopDetailData:'',//商铺详情
+                shopDetailData:null,//商铺详情
             }
         },
         computed:{
             promotionInfo(){
-                return ;
+                return this.shopDetailData.promotion_info || "欢迎光临，用餐高峰期请提前下单，谢谢。";
             }
-        }
+        },
         mounted(){
 
         },
         props:[],
+        components:{
+            ratingStar,
+        },
         methods:{
             goback(){
 
