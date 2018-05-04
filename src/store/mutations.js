@@ -1,9 +1,10 @@
 import {
     GET_USERINFO,
     SAVE_GEOHASH,
-    SAVE_LATANDLON
+    SAVE_LATANDLON,
+    INIT_BUYCART
 } from './mutation-types'
-
+import {getItem, setItem} from '../config/myUtils'
 
 export default {
     //获取用户信息
@@ -19,5 +20,11 @@ export default {
         state.latitude = info.latitude;
         state.longitude = info.longitude;
     },
-
+    //从localstorage取出初始化购物车
+    [INIT_BUYCART](state){
+        let initData = getItem('buyCart');
+        if(initData){
+            state.carList = initData;
+        }
+    }
 }

@@ -4,3 +4,6 @@ export const GET_USERINFO = 'GET_USERINFO'
 export const SAVE_GEOHASH = 'SAVE_GEOHASH'
 //保存经度纬度
 export const SAVE_LATANDLON = 'SAVE_LATANDLON'
+
+//从localstorage取出数据init购物车
+export const INIT_BUYCART = 'INIT_BUYCART'
