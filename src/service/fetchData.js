@@ -75,3 +75,13 @@ export const shopDetails = shopId => fetch('/shopping/restaurant/' + shopId);
 export const foodMenu = restaurant_id => fetch('/shopping/v2/menu/', {
     restaurant_id
 })
+
+/*
+*  获取某个店铺的评价分数
+* */
+export const ratingScores = shopId => fetch('/ugc/v2/restaurants/' + shopId + '/ratings/scores');
+
+/*
+*  获取某个店铺的评价的所有分类
+* */
+export const ratingTags = shopId => fetch('/ugc/v2/restaurants/' + shopId + '/ratings/tags');
