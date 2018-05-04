@@ -63,3 +63,15 @@ export const fetchShopList = (latitude, longitude, offset, restaurant_category_i
     };
     return fetch('/shopping/restaurants', data);
 }
+
+/*
+* 获取某个商铺的详情
+* */
+export const shopDetails = shopId => fetch('/shopping/restaurant/' + shopId);
+
+/*
+*  获取shop页面的食物菜单列表
+* */
+export const foodMenu = restaurant_id => fetch('/shopping/v2/menu/', {
+    restaurant_id
+})
