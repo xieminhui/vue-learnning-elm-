@@ -22,19 +22,19 @@
                             <!--M:moveto L:lineto-->
                             <path d="M0 0 L8 7 L0 14" stroke="#fff" stroke-width="1" fill="none"/>
                         </svg>
-                        <footer class="description_footer" v-if="shopDetailData.activities.length >0" @click="">
-                            <p class="ellipsis">
-                                <span class="tip_icon" :style="{background: '#'+shopDetailData.activities[0].icon_color, borderColor:'#'+shopDetailData.activities[0].icon_color}">
+                    </router-link>
+                    <footer class="description_footer" v-if="shopDetailData.activities.length >0">
+                        <p class="ellipsis">
+                                <span class="tip_icon" :style="{backgroundColor: '#' + shopDetailData.activities[0].icon_color, borderColor: '#' + shopDetailData.activities[0].icon_color } ">
                                     {{shopDetailData.activities[0].icon_name}}
                                 </span>
-                                <span>{{shopDetailData.activities[0].description}}（APP用户专享）</span>
-                            </p>
-                            <p>{{shopDetailData.activities.length}}个活动</p>
-                            <svg class="footer_arrow">
-                                <use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#arrow-left"></use>
-                            </svg>
-                        </footer>
-                    </router-link>
+                            <span>{{shopDetailData.activities[0].description}}（APP用户专享）</span>
+                        </p>
+                        <p>{{shopDetailData.activities.length}}个活动</p>
+                        <svg class="footer_arrow">
+                            <use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#arrow-left"></use>
+                        </svg>
+                    </footer>
                 </section>
             </header>
             <!--显示活动详情-->
@@ -48,7 +48,7 @@
                         <header class="activities_title_style"><span>优惠信息</span></header>
                         <ul>
                             <li v-for="item in shopDetailData.activities" :key="item.id">
-                                <span class="activities_icon" :style="{backgroundColor: '#' + item.icon_color, borderColor：'#' +item.icon_color}">
+                                <span class="activities_icon" :style="{ backgroundColor: '#' + item.icon_color, borderColor:'#' + item.icon_color}">
                                     {{item.icon_name}}
                                 </span>
                                 <span>{{item.description}}（APP用户专享）</span>
@@ -103,35 +103,35 @@
                                             {{item.description}}
                                         </p>
                                     </header>
-                                    <section v-for="(foods, foodindex) in item.foods" :key="item.foodindex" class="menu_detail_list">
-                                        <router-link :to="{path:'shop/foodDetail', query:{image_path:foods.image_path, description: foods.description, month_sales: foods.month_sales, name: foods.name, rating: foods.rating, rating_count: foods.rating_count, satisfy_rate: foods.satisfy_rate, foods, shopId}}" tag="div" class="menu_detail_link">
+                                    <section v-for="(foodsitem, foodindex) in item.foods" :key="item.foodindex" class="menu_detail_list">
+                                        <router-link :to="{path:'shop/foodDetail', query:{image_path:foodsitem.image_path, description: foodsitem.description, month_sales: foodsitem.month_sales, name: foodsitem.name, rating: foodsitem.rating, rating_count: foodsitem.rating_count, satisfy_rate: foodsitem.satisfy_rate, foodsitem, shopId}}" tag="div" class="menu_detail_link">
                                             <section class="menu_food_img">
-                                                <img :src="imgBaseUrl + foods.image_path">
+                                                <img :src="imgBaseUrl + foodsitem.image_path">
                                             </section>
                                             <section class="menu_food_description">
                                                 <h3 class="food_description_head">
-                                                    <strong class="description_foodname">{{foods.name}}</strong>
-                                                    <ul v-if="foods.attributes.length" class="attributes_ul">
-                                                        <li :for="(attribute, foodindex) in foods.attributes" :key="foodindex" :style="{color: '#' + attribute.icon_color, borderColor:'#' + attribute.icon_color}" :class="{attribute_new:attribute.icon_name == '新'}">
-                                                            <p :style="{color: attribute.icon_name == '新'? '#fff': '#' + attribute.icon_color}">{{attribute.icon_name == '新'? '新品'： attritube.icon_name}}</p>
+                                                    <strong class="description_foodname">{{foodsitem.name}}</strong>
+                                                    <ul v-if="foodsitem.attributes && foodsitem.attributes.length" class="attributes_ul">
+                                                        <li v-for="(attribute, foodindex) in foodsitem.attributes" :key="foodindex" :style="{color: '#' + attribute.icon_color, borderColor:'#' + attribute.icon_color}" :class="{attribute_new:attribute.icon_name == '新'}">
+                                                            <p :style="{color: attribute.icon_name == '新'? '#fff': '#' + attribute.icon_color}">{{(attribute.icon_name == '新') ? '新品' : attribute.icon_name}}</p>
                                                         </li>
                                                     </ul>
                                                 </h3>
-                                                <p class="food_description_content">{{foods.description}}</p>
+                                                <p class="food_description_content">{{foodsitem.description}}</p>
                                                 <p class="food_description_sale_rating">
-                                                    <span>月售{{foods.month_sales}}份</span>
-                                                    <span>好评率{{foods.satisfy_rate}}%</span>
+                                                    <span>月售{{foodsitem.month_sales}}份</span>
+                                                    <span>好评率{{foodsitem.satisfy_rate}}%</span>
                                                 </p>
-                                                <p v-if="foods.activity" class="food_activity">
-                                                    <span :style="{color: '#' + foods.activity.image_text_color, borderColor: '#' + foods.activity.icon_color}">{{foods.activity.image_text}}</span>
+                                                <p v-if="foodsitem.activity" class="food_activity">
+                                                    <span :style="{color: '#' + foodsitem.activity.image_text_color, borderColor: '#' + foodsitem.activity.icon_color}">{{foodsitem.activity.image_text}}</span>
                                                 </p>
                                             </section>
                                         </router-link>
                                         <footer class="menu_detail_footer">
                                             <section class="food_price">
                                                 <span>¥</span>
-                                                <span>{{foods.specfoods[0].price}}</span>
-                                                <span v-if="foods.specifications.length">起</span>
+                                                <span>{{foodsitem.specfoods[0].price}}</span>
+                                                <span v-if="foodsitem.specifications.length">起</span>
                                             </section>
                                         </footer>
                                     </section>
@@ -320,9 +320,10 @@
     import {mapState, mapMutations} from 'vuex'
     import { shopListImgBaseUrl } from '../../config/env'
     import ratingStar from '../../components/common/ratingStar'
-    import {getImgPath } from '../../components/common/mixin'
+    import {getImgPath, loadMore} from '../../components/common/mixin'
     import { imgBaseUrl } from '../../config/env'
     import loading from '../../components/common/loading'
+    import {shopDetails, foodMenu, ratingScores, ratingTags} from '../../service/fetchData'
 
     export default {
         data(){
@@ -332,33 +333,146 @@
                 showLoading:true,//显示加载动画
                 showActivities:false,//显示活动详情页
                 shopListImgBaseUrl,
-                shopDetailData:[],//商铺详情
+                shopDetailData:null,//商铺详情
                 changeShowType: 'food',//切换显示商品或者评价
-                menuList: [], //食品列表
+                menuList: null, //食品列表
                 imgBaseUrl,//baseimgurl
+                showSpecs:false,//控制显示食品规格
+                showDeleteTip: false, //多规格商品点击减按钮，弹出提示框
+                showMoveDot:[], //控制下落的小圆点显示隐藏
+                menuIndex: 0, //已选菜单索引值，默认为0
+                categoryNum: [], //商品类型右上角已加入购物车的数量
+                TitleDetailIndex: null, //点击展示列表头部详情
+                totalPrice: 0, //总共价格
+                showCartList: false,//显示购物车列表
+                receiveInCart: false, //购物车组件下落的圆点是否到达目标位置
+                cartFoodList: [], //购物车商品列表
+                ratingScoresData: null, //评价总体分数
+
             }
         },
         computed:{
+            ...mapState([
+                'latitude', 'longitude', 'cartList'
+            ]),
             promotionInfo(){
                 return this.shopDetailData.promotion_info || "欢迎光临，用餐高峰期请提前下单，谢谢。";
+            },
+            //购物车总共商品数量
+            totalNum(){
+
+            },
+            //配送费
+            deliveryFee(){
+
+            },
+            //还差多少元起送，为负数时显示去结算按钮
+            minimumOrderAmount(){
+
             }
         },
+        created(){
+            this.geohash = this.$route.query.geohash;
+            this.shopId = this.$route.query.id;
+        },
         mounted(){
-
+            this.initData();
         },
         props:[],
+        mixins:[loadMore, getImgPath],
         components:{
             ratingStar,loading
         },
         methods:{
             goback(){
 
+            },
+            //隐藏动画
+            hideLoading(){
+                this.showLoading = false;
+            },
+            async initData(){
+                //页面头部详情
+                this.shopDetailData = await shopDetails(this.shopId);
+                //店铺食物
+                this.menuList = await foodMenu(this.shopId);
+                //店铺评论分数
+                this.ratingScoresData = await ratingScores(this.shopId);
+                this.hideLoading();
+            },
+            async loaderMoreRating(){
+
+            },
+            //控制购物车列表是否显示
+            toggleCarList(){
+
+            },
+            //清空购物车
+            clearCart(){
+
             }
         }
     }
 </script>
 
-<style lang="scss" scoped>
+<style lang="scss" scoped type="text/scss">
     @import "../../style/mixin.scss";
 
+    .shop_container{
+        display: flex;
+        flex-wrap: wrap;
+        .goback{
+            position: fixed;
+            top:0.2rem;
+            left:0.2rem;
+            right: 0;
+            height: 2rem;
+            z-index: 999;
+        }
+        .shop_detail_header{
+            width: 100%;
+            .header_cover_img{
+                filter: blur(10px);
+                position: absolute;
+                width: 100%;
+                z-index: 9;
+            }
+            .description_header{
+                width: 100%;
+                .description_top{
+                    display: flex;
+                    position: relative;
+                    padding: 0.8rem 0.4rem 0.4rem;
+                }
+                .description_left {
+                    z-index: 99;
+                    img{
+                        width: 2.9rem;
+                        height: 2.9rem;
+                    }
+                }
+                .description_right{
+                    @include sc(0.04rem,  $fc);
+                    z-index: 10;
+                    margin-left: 0.5rem;
+                    .description_title{
+                        font-size: 0.8rem;
+                        font-weight: bold;
+                        margin-bottom: 0.3rem;
+                    }
+                    .description_text{
+                        margin-bottom: 0.3rem;
+                    }
+                    .description_promotion{
+                        margin-bottom: 0.3rem;
+                    }
+                }
+                .description_arrow{
+                    @include ct;
+                    right: 0.5rem;
+                    z-index: 11;
+                }
+            }
+        }
+    }
 </style>
