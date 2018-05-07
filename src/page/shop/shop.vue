@@ -73,7 +73,7 @@
                     <span :class="{activity_show:changeShowType == 'food' }" @click="changeShowType ='food'">商品</span>
                 </div>
                 <div>
-                    <span :class="{activity_show:changeShowType == 'rating' }" @click="changeShowType ='rating'">商品</span>
+                    <span :class="{activity_show:changeShowType == 'rating' }" @click="changeShowType ='rating'">评价</span>
                 </div>
             </section>
             <transition name="fade-choose">
@@ -472,7 +472,54 @@
                     right: 0.5rem;
                     z-index: 11;
                 }
+                .description_footer{
+                    display: flex;
+                    justify-content: space-between;
+                    padding-left: 0.6rem;
+                    width: 100%;
+                    @include sc(0.04rem,  $fc);
+                    p{
+                        z-index: 99;
+                    }
+                    p:first-child{
+                        width: 80%;
+                        .tip_icon{
+                            padding: 0.03rem 0rem 0.03rem 0.15rem;
+                            border-radius: 0.1rem;
+                        }
+                    }
+                    .footer_arrow{
+                        @include wh(1rem, 0.45rem);
+                        z-index: 99;
+                    }
+                }
             }
+        }
+        .change_show_type{
+            display: flex;
+            margin-top: .5rem;
+            background: $fc;
+            z-index: 99;
+            width: 100%;
+            padding: .6rem 0 .6rem;
+            border-bottom: 1px solid #ebebeb;
+            @include sc(0.65rem, #666);
+            div{
+                flex: 1;
+                text-align: center;
+                span{
+                    border-bottom: 0.12rem solid #fff;
+                    padding: .2rem .1rem;
+                }
+            }
+            .activity_show{
+                color: $blue;
+                border-bottom-color: $blue;
+            }
+        }
+        .food_container{
+            display: flex;
+            flex: 1;
         }
     }
 </style>
