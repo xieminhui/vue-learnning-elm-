@@ -106,7 +106,7 @@
                                     <section v-for="(foodsitem, foodindex) in item.foods" :key="item.foodindex" class="menu_detail_list">
                                         <router-link :to="{path:'shop/foodDetail', query:{image_path:foodsitem.image_path, description: foodsitem.description, month_sales: foodsitem.month_sales, name: foodsitem.name, rating: foodsitem.rating, rating_count: foodsitem.rating_count, satisfy_rate: foodsitem.satisfy_rate, foodsitem, shopId}}" tag="div" class="menu_detail_link">
                                             <section class="menu_food_img">
-                                                <img :src="imgBaseUrl + foodsitem.image_path">
+                                                <img :src="shopListImgBaseUrl + foodsitem.image_path">
                                             </section>
                                             <section class="menu_food_description">
                                                 <h3 class="food_description_head">
@@ -519,7 +519,69 @@
         }
         .food_container{
             display: flex;
+            flex-wrap:wrap;
             flex: 1;
+            background: #F5F5F5;
+            z-index: 99;
+            .menu_container{
+                flex: 1;
+                display: flex;
+                .menu_left{
+                    flex-direction:column;
+                    .menu_left_li{
+                        display: flex;
+                        @include sc(0.6rem, #333);
+                        padding: 1rem 0.2rem;
+                        width: 3.8rem;
+                        img{
+                            width: 0.5rem;
+                            height: 0.5rem;
+                            padding-right: 0.2rem;
+                        }
+                        span:nth-of-type(1){
+                            font-weight: bold;
+                            vertical-align: middle;
+                            line-height: 0.5rem;
+                        }
+
+                    }
+                    .activity_menu{
+                        border-left: 0.15rem solid $blue;
+                        background: $fc;
+                    }
+                }
+                .menu_right{
+                    flex-direction:row-reverse;
+                    flex: 1;
+                    .menu_detail_header{
+                        display: flex;
+                        padding: 0.6rem .5rem;
+                        justify-content:space-between;
+                        .menu_detail_header_left{
+                            .menu_item_title{
+                                @include sc(0.8rem, #333);
+                            }
+                            .menu_item_description{
+                                @include sc(0.4rem, $fzGrey);
+                            }
+                        }
+                        .menu_detail_header_right{
+                            display: block;
+                            @include wh(.5rem, 1.4rem);
+                            @include bis('../../images/icon_point.png');
+                            background-size: 100% .4rem;
+                            background-position: left center;
+                        }
+                    }
+                    .menu_detail_list{
+                        display: flex;
+                        background: $fc;
+                    }
+                }
+            }
+            .buy_cart_container{
+                display: flex;
+            }
         }
     }
 </style>
