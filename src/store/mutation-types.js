@@ -7,3 +7,9 @@ export const SAVE_LATANDLON = 'SAVE_LATANDLON'
 
 //从localstorage取出数据init购物车
 export const INIT_BUYCART = 'INIT_BUYCART'
+
+//将食物加入购物车
+export const ADD_CART = 'ADD_CART'
+
+//将食物移出购物车
+export const REDUCE_CART = 'REDUCE_CART'
