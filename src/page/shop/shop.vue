@@ -133,6 +133,7 @@
                                                 <span>{{foodsitem.specfoods[0].price}}</span>
                                                 <span v-if="foodsitem.specifications.length">起</span>
                                             </section>
+                                            <buy-cart :shopId='shopId' :foods='foodsitem' @moveIncart="listeninCart" @showChooseList="showChooseList" @showReduceTip="showReduceTip" @showMoveDot="showMoveDotFun"></buy-cart>
                                         </footer>
                                     </section>
                                 </li>
@@ -323,6 +324,7 @@
     import {getImgPath, loadMore} from '../../components/common/mixin'
     import { imgBaseUrl } from '../../config/env'
     import loading from '../../components/common/loading'
+    import buyCart from '../../components/common/buyCart.vue'
     import {shopDetails, foodMenu, ratingScores, ratingTags} from '../../service/fetchData'
 
     export default {
@@ -381,7 +383,7 @@
         props:[],
         mixins:[loadMore, getImgPath],
         components:{
-            ratingStar,loading
+            ratingStar,loading,buyCart
         },
         methods:{
             goback(){
@@ -421,6 +423,7 @@
     .shop_container{
         display: flex;
         flex-wrap: wrap;
+        overflow: hidden;
         .goback{
             position: fixed;
             top:0.2rem;
