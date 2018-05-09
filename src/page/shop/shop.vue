@@ -574,8 +574,82 @@
                         }
                     }
                     .menu_detail_list{
-                        display: flex;
+                        position: relative;
                         background: $fc;
+                        padding: 0.6rem .4rem;
+                        border-bottom: 1px solid $bc;
+                        overflow: hidden;
+                        .menu_detail_link{
+                            display: flex;
+                            .menu_food_img img{
+                                @include wh(2.5rem, 2.5rem);
+                                margin-right: 0.5rem;
+                            }
+                            .menu_food_description{
+                                flex:1;
+                            }
+                            .food_description_head{
+                                display: flex;
+                                justify-content: space-between;
+                                .description_foodname{
+                                    font-size: 0.7rem;
+                                    margin-bottom: 0.2rem;
+                                }
+                                .attributes_ul{
+                                    display: flex;
+                                    li{
+                                        font-size: .3rem;
+                                        border: 1px solid #ccc;
+                                        padding: 0.1rem;
+                                        line-height: 0.35rem;
+                                        height: 0.6rem;
+                                        border-radius: .2rem;
+                                    }
+                                    .attribute_new {
+                                        position: absolute;
+                                        left: 0;
+                                        top: 0;
+                                        width: 2rem;
+                                        height: 2rem;
+                                        border-radius: 0;
+                                        background-color: #4cd964;
+                                        transform: rotate(-45deg) translate(-0.1rem, -1.4rem);
+                                        font-size: 0.4rem;
+                                        text-align: center;
+                                        P{
+                                            line-height: 3.1rem;
+                                        }
+                                    }
+                                }
+                            }
+                            .food_description_content{
+                                @include sc(0.5rem, $fzGrey);
+                                margin-bottom: .2rem;
+                            }
+                            .food_description_sale_rating{
+                                font-size: 0.5rem;
+                            }
+                            .food_activity{
+                                line-height: 0.4rem;
+                               span{
+                                   display: inline-block;
+                                   border: 1px solid $bc;
+                                   font-size: 0.3rem;
+                                   border-radius: 0.3rem;
+                                   padding: 0.08rem;
+                                   transform: scale(0.8);
+                               }
+                            }
+                        }
+                        .menu_detail_footer{
+                            padding-left: 3rem;
+                            display: flex;
+                            justify-content: space-between;
+                            .food_price{
+                                color: #f60;
+                                font-size: 0.65rem;
+                            }
+                        }
                     }
                 }
             }
