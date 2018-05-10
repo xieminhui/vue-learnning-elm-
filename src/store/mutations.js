@@ -2,7 +2,9 @@ import {
     GET_USERINFO,
     SAVE_GEOHASH,
     SAVE_LATANDLON,
-    INIT_BUYCART
+    INIT_BUYCART,
+    ADD_CART,
+    REDUCE_CART
 } from './mutation-types'
 import {getItem, setItem} from '../config/myUtils'
 
@@ -25,6 +27,65 @@ export default {
         let initData = getItem('buyCart');
         if(initData){
             state.carList = initData;
+        }
+    },
+    //添加购物车
+    [ADD_CART](state,{
+        shopid,
+        category_id,
+        item_id,
+        food_id,
+        name,
+        price,
+        specs,
+        packing_fee,
+        sku_id,
+        stock
+    }){
+        //这个组成的对象有点复杂，如下{餐馆(shopid)：{餐馆食物分类类别(category_id)：某个类别下的itemid(itemid)：某个类别下的食物id(foodid):{食物详情}}
+        let cart = state.carList;
+        let shop = cart[shopid] = (cart[shopid] || {});
+        let category = shop[category_id] = (shop[category_id] || {});
+        let item = category[item_id] = (category[item_id] || {});
+        if(item[food_id]){
+            item[food_id]['num']++
+        }else{
+            item[food_id] = {
+                'num': 1,
+                'id': food_id,
+                'name': name,
+                'price': price,
+                'specs': specs,
+                'packing_fee': packing_fee,
+                'sku_id': sku_id,
+                'stock': stock
+            }
+        }
+        state.carList = {...cart};
+        setItem('buyCart', state.carList);
+    },
+    //移出购物车
+    [REDUCE_CART](state,{
+        shopid,
+        category_id,
+        item_id,
+        food_id,
+        name,
+        price,
+        specs,
+    }){
+        let cart = state.carList;
+        let shop = (cart[shopid] || {});
+        let category = (shop[category_id] || {});
+        let item = (category[item_id] || {});
+        if(item && item[food_id]){
+            if(item[food_id]['num']>0){
+                item[food_id]['num']--;
+            }else{
+                item[food_id] = {};
+            }
+            state.carList = {...cart};
+            setItem('buyCart', state.carList);
         }
     }
 }
