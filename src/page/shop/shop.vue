@@ -362,15 +362,30 @@
             },
             //购物车总共商品数量
             totalNum(){
+                let num = 0;
+                this.cartFoodList.forEach(item => {
+                    num+= item.num;
+                })
 
+                return num;
             },
             //配送费
             deliveryFee(){
-
+                if(this.shopDetailData){
+                    return this.shopDetailData.float_delivery_fee;
+                }
+                return 0;
             },
             //还差多少元起送，为负数时显示去结算按钮
             minimumOrderAmount(){
-
+                if(this.shopDetailData){
+                    return this.shopDetailData.float_minimum_order_amount - this.totalPrice;
+                }
+                return 0;
+            },
+            //当前购物车信息
+            shopCart(){
+                return {...this.cartList[this.shopId]};
             }
         },
         created(){
@@ -403,11 +418,10 @@
                 this.hideLoading();
             },
             async loaderMoreRating(){
-
             },
             //控制购物车列表是否显示
             toggleCarList(){
-
+                
             },
             //清空购物车
             clearCart(){
