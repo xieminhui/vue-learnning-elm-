@@ -4,7 +4,8 @@ import {
     SAVE_LATANDLON,
     INIT_BUYCART,
     ADD_CART,
-    REDUCE_CART
+    REDUCE_CART,
+    CLEAR_CART
 } from './mutation-types'
 import {getItem, setItem} from '../config/myUtils'
 
@@ -87,5 +88,10 @@ export default {
             state.carList = {...cart};
             setItem('buyCart', state.carList);
         }
+    },
+    //清空购物车
+    [CLEAR_CART](state, shopid){
+        state.cartList[shopid] = null;
+        setItem('buyCart', state.cartList);
     }
 }

@@ -13,3 +13,6 @@ export const ADD_CART = 'ADD_CART'
 
 //将食物移出购物车
 export const REDUCE_CART = 'REDUCE_CART'
+
+//清空购物车
+export const CLEAR_CART = 'CLEAR_CART'
