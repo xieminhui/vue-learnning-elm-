@@ -58,12 +58,12 @@
             foodNum(){
                 let shopCart = this.cartList[this.shopId];
                 let category_id = this.foods.category_id;
-                let item_id =this.fodds.item_id;
+                let item_id =this.foods.item_id;
                 if(shopCart && shopCart[category_id] && shopCart[category_id][item_id]){
                     let num =0;
                     let obj = shopCart[category_id][item_id];
                     for(let key in obj){
-                        num += obj.key['num'];
+                        num += obj[key]['num'];
                     }
                     return num;
                 }else{
@@ -81,15 +81,15 @@
                 if(this.foodNum > 0){
                     this.REDUCE_CART({
                         shopid: this.shopId,
-                        category_id: this.foods.category_id,
-                        item_id: this.foods.item_id,
-                        food_id: this.foods.specfoods[0].food_id,
-                        name: this.foods.specfoods[0].name,
-                        price: this.foods.specfoods[0].price,
+                        category_id: foods.category_id,
+                        item_id: foods.item_id,
+                        food_id: foods.specfoods[0].food_id,
+                        name: foods.specfoods[0].name,
+                        price: foods.specfoods[0].price,
                         specs: '',
-                        packing_fee:this.foods.specfoods[0].packing_fee,
-                        sku_id:this.foods.specfoods[0].sku_id,
-                        stock: this.foods.specfoods[0].stock
+                        packing_fee: foods.specfoods[0].packing_fee,
+                        sku_id: foods.specfoods[0].sku_id,
+                        stock: foods.specfoods[0].stock
                     });
                 }
             },
@@ -97,15 +97,15 @@
             addTocart(foods,event){
                 this.ADD_CART({
                     shopid: this.shopId,
-                    category_id: this.foods.category_id,
-                    item_id: this.foods.item_id,
-                    food_id: this.foods.specfoods[0].food_id,
-                    name: this.foods.specfoods[0].name,
-                    price: this.foods.specfoods[0].price,
+                    category_id: foods.category_id,
+                    item_id: foods.item_id,
+                    food_id: foods.specfoods[0].food_id,
+                    name: foods.specfoods[0].name,
+                    price: foods.specfoods[0].price,
                     specs: '',
-                    packing_fee:this.foods.specfoods[0].packing_fee,
-                    sku_id:this.foods.specfoods[0].sku_id,
-                    stock: this.foods.specfoods[0].stock
+                    packing_fee:foods.specfoods[0].packing_fee,
+                    sku_id: foods.specfoods[0].sku_id,
+                    stock: foods.specfoods[0].stock
                 });
                 let eleLeft = event.target.getBoundingClientRect().left;
                 let eleBottom = event.target.getBoundingClientRect().bottom;

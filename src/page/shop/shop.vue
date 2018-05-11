@@ -213,7 +213,7 @@
                                 <section class="rating_header_left">
                                     <p>{{shopDetailData.rating}}</p>
                                     <p>综合评价</p>
-                                    <p>高于周边商家{{(ratingScoresData.compare_rating*1000).toFixed(1)}}%</p>
+                                    <p>高于周边商家{{(ratingScoresData.compare_rating*100).toFixed(1)}}%</p>
                                 </section>
                                 <section class="rating_header_right">
                                     <p>
@@ -250,6 +250,11 @@
                                             <time class="rated_at">{{item.rated_at}}</time>
                                         </header>
                                         <ul class="food_img_ul">
+                                            <li v-for="(item, index) in item.item_ratings" :key="index">
+                                                <img :src="getImgPath(item.image_hash)" v-if="item.image_hash">
+                                            </li>
+                                        </ul>
+                                        <ul class="food_name_ul">
                                             <li v-for="(item, index) in item.item_ratings" :key="index" class="ellipsis">
                                                 {{item.food_name}}
                                             </li>
@@ -326,7 +331,7 @@
     import { imgBaseUrl } from '../../config/env'
     import loading from '../../components/common/loading'
     import buyCart from '../../components/common/buyCart.vue'
-    import {shopDetails, foodMenu, ratingScores, ratingTags} from '../../service/fetchData'
+    import {shopDetails, foodMenu, ratingScores, ratingTags, ratingList} from '../../service/fetchData'
 
     export default {
         data(){
@@ -395,6 +400,7 @@
         created(){
             this.geohash = this.$route.query.geohash;
             this.shopId = this.$route.query.id;
+            this.INIT_BUYCART();
         },
         mounted(){
             this.initData();
@@ -405,8 +411,11 @@
             ratingStar,loading,buyCart
         },
         methods:{
+            ...mapMutations([
+                'RECORD_ADDRESS','ADD_CART','REDUCE_CART','INIT_BUYCART','CLEAR_CART','RECORD_SHOPDETAIL'
+            ]),
             goback(){
-
+                this.$router.go(-1);
             },
             //隐藏动画
             hideLoading(){
@@ -419,6 +428,11 @@
                 this.menuList = await foodMenu(this.shopId);
                 //店铺评论分数
                 this.ratingScoresData = await ratingScores(this.shopId);
+                //获取评论tag列表
+                this.ratingTagsList = await ratingTags(this.shopId);
+                //获取评论的列表
+                this.ratingList = await ratingList(this.shopId);
+                this.RECORD_SHOPDETAIL(this.shopDetailData);
                 this.hideLoading();
             },
             async loaderMoreRating(){
@@ -508,11 +522,13 @@
         }
         .shop_detail_header{
             width: 100%;
+            overflow: hidden;
             .header_cover_img{
                 filter: blur(10px);
                 position: absolute;
                 width: 100%;
                 z-index: 9;
+                overflow: hidden;
             }
             .description_header{
                 width: 100%;
@@ -732,6 +748,102 @@
             }
             .buy_cart_container{
                 display: flex;
+            }
+        }
+        .rating_container{
+            display: flex;
+            flex: 1;
+            z-index: 99;
+            .rating_header{
+                display: flex;
+                padding: .8rem .5rem;
+                margin-bottom: 0.4rem;
+                background: $fc;
+                .rating_header_left{
+                    text-align: center;
+                    p:nth-of-type(1){
+                        @include sc(1.2rem, #f60);
+                    }
+                    p:nth-of-type(2){
+                        @include sc(0.7rem, #666);
+                    }
+                    p:nth-of-type(3){
+                        @include sc(0.5rem, $fzGrey);
+                    }
+                }
+                .rating_header_right{
+                    flex: 3;
+                    @include sc(0.7rem, #666);
+                    padding-left: 1rem;
+                    p{
+                        display: flex;
+                        margin-bottom: 0.1rem;
+                        span:nth-of-type(1){
+                            padding-right: .5rem;
+                        }
+                        span:nth-of-type(2){
+                            padding-left: .5rem;
+                            @include sc(0.5rem, #f60);
+                        }
+                    }
+                    p:nth-of-type(3){
+                        span:nth-of-type(2){
+                            line-height: 1rem;
+                            color:#666;
+                        }
+                    }
+                }
+            }
+            .tag_list_ul{
+                display: flex;
+                flex-wrap: wrap;
+                padding: 0.6rem .4rem 0rem;
+                background: $fc;
+                li{
+                    font-size: 0.6rem;
+                    color: #6d7885;
+                    padding: .3rem .3rem;
+                    background-color: #ebf5ff;
+                    border-radius: 0.2rem;
+                    border: 1px;
+                    margin: 0 .4rem .2rem 0;
+                }
+            }
+            .rating_list_ul{
+                padding: 0.6rem .4rem;
+                background: $fc;
+                @include sc(0.65rem, $fzGrey);
+                flex-wrap: wrap;
+                .rating_list_li{
+                    display: flex;
+                    flex: 1;
+                    border-top: 1px solid $bc;
+                    .user_avatar{
+                        width: 1.5rem;
+                        height: 1.5rem;
+                        border-radius: 0.75rem;
+                        margin-right: 0.5rem;
+                    }
+                    .rating_list_details{
+                        header{
+                            display: flex;
+                            flex: 1;
+                            .username_star{
+
+                            }
+                        }
+                        .food_img_ul{
+                            flex: 2;
+                            display: flex;
+                            img{
+                                @include wh(3rem, 3rem);
+                            }
+                        }
+                        .food_name_ul{
+                            display: flex;
+                        }
+                    }
+                }
             }
         }
     }
