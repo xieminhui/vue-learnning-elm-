@@ -85,3 +85,12 @@ export const ratingScores = shopId => fetch('/ugc/v2/restaurants/' + shopId + '/
 *  获取某个店铺的评价的所有分类
 * */
 export const ratingTags = shopId => fetch('/ugc/v2/restaurants/' + shopId + '/ratings/tags');
+
+/*
+*  获取某个店铺的所有评论列表
+* */
+export const ratingList = (shopId, tag_name = '', offset = 0, limit =10) => fetch('/ugc/v2/restaurants/' + shopId + '/ratings',{
+    tag_name,
+    offset,
+    limit
+})
