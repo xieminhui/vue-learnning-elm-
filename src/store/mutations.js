@@ -5,7 +5,8 @@ import {
     INIT_BUYCART,
     ADD_CART,
     REDUCE_CART,
-    CLEAR_CART
+    CLEAR_CART,
+    RECORD_SHOPDETAIL
 } from './mutation-types'
 import {getItem, setItem} from '../config/myUtils'
 
@@ -93,5 +94,9 @@ export default {
     [CLEAR_CART](state, shopid){
         state.cartList[shopid] = null;
         setItem('buyCart', state.cartList);
+    },
+    //记录后台返回的商家店铺详情
+    [RECORD_SHOPDETAIL](state, info){
+        state.shopDetail = info;
     }
 }

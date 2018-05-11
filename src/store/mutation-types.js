@@ -16,3 +16,6 @@ export const REDUCE_CART = 'REDUCE_CART'
 
 //清空购物车
 export const CLEAR_CART = 'CLEAR_CART'
+
+//记录后台放回的商家店铺详情
+export const RECORD_SHOPDETAIL = 'RECORD_SHOPDETAIL'

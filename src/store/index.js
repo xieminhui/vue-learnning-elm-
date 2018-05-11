@@ -12,6 +12,7 @@ const state = {
     latitude: '', // 当前位置纬度
     longitude: '', // 当前位置经度
     cartList: {},//加入购物车的商品列表
+    shopDetail: null,//商家店铺详情
 }
 
 export default new Vuex.Store({
