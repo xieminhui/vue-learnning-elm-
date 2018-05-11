@@ -11,7 +11,7 @@ const state = {
     geohash:'wtw3sm0q087',//经纬度坐标组成的字符串
     latitude: '', // 当前位置纬度
     longitude: '', // 当前位置经度
-    carList: {},//加入购物车的商品列表
+    cartList: {},//加入购物车的商品列表
 }
 
 export default new Vuex.Store({
