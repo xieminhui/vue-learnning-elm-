@@ -219,11 +219,12 @@
                                     <p>
                                         <span>服务态度</span>
                                         <rating-star :rating="ratingScoresData.food_score"></rating-star>
-                                        <span class="rating_num">{{ratingScoresData.food_score.toFixed(1)}}</span>
+                                        <span class="rating_num">{{ratingScoresData.service_score.toFixed(1)}}</span>
                                     </p>
                                     <p>
                                         <span>菜品评价</span>
-                                        <rating-star :rating="rating_num">{{ratingScoresData.food_score.toFixed(1)}}</rating-star>
+                                        <rating-star :rating="ratingScoresData.food_score"></rating-star>
+                                        <span class="rating_num">{{ratingScoresData.food_score.toFixed(1)}}</span>
                                     </p>
                                     <p>
                                         <span>送达时间</span>
@@ -349,7 +350,10 @@
                 showCartList: false,//显示购物车列表
                 receiveInCart: false, //购物车组件下落的圆点是否到达目标位置
                 cartFoodList: [], //购物车商品列表
+                ratingList: null, //评价列表
                 ratingScoresData: null, //评价总体分数
+                ratingTagsList: null, //评价分类列表
+                loadRatings: false, //加载更多评论是显示加载组件
 
             }
         },
@@ -421,10 +425,66 @@
             },
             //控制购物车列表是否显示
             toggleCarList(){
-                
+
             },
             //清空购物车
             clearCart(){
+
+            },
+            /*
+            * 初始化和shopcart变化时，重新获取购物车改变的数据，接着赋值给categoryNum,tatalPrice,cartFoodList,
+            * */
+            initCategoryNum(){
+                let newArr = [];
+                let cartFoodNum =0;
+                this.totalPrice = 0;
+                this.cartFoodList = [];
+                this.menuList.forEach((item, index) => {
+                    if(this.shopCart && this.shopCart[item.foods[0].category_id]){
+                        let num = 0;
+                        Object.keys(this.shopCart[item.foods[0].category_id]).forEach(itemid => {
+                            Object.keys(this.shopCart[item.foods[0].category_id][itemid]).forEach(foodid =>{
+                                let foodItem = this.shopCart[item.foods[0].category_id][itemid][foodid];
+                                num += foodItem.num;
+                                if(item.type == 1){
+                                    this.totalPrice += foodItem.num * foodItem.num;
+                                    if(foodItem.num >0){
+                                        this.cartFoodList[cartFoodNum] = {
+                                            category_id : item.foods[0].category_id,
+                                            item_id : itemid,
+                                            food_id: foodid,
+                                            num : foodItem.num,
+                                            price : foodItem.price,
+                                            name : foodItem.name,
+                                            specs : foodItem.specs
+                                        };
+                                        cartFoodNum++;
+                                    }
+                                }
+                            })
+                        })
+                        newArr[index] = num;
+                    }else{
+                        newArr[index] = 0;
+                    }
+                })
+                this.totalPrice = this.totalPrice.toFixed(2);
+                this.categoryNum = [...newArr];
+            },
+            //显示规格列表
+            showChooseList(foods){
+
+            },
+            //显示提示，无法减去商品
+            showReduceTip(){
+
+            },
+            //显示下落的小球
+            showMoveDotFun(){
+
+            },
+            //监听圆点是否进入购物车
+            listeninCart(){
 
             }
         }
