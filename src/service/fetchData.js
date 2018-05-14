@@ -89,8 +89,8 @@ export const ratingTags = shopId => fetch('/ugc/v2/restaurants/' + shopId + '/ra
 /*
 *  获取某个店铺的所有评论列表
 * */
-export const ratingList = (shopId, tag_name = '', offset = 0, limit =10) => fetch('/ugc/v2/restaurants/' + shopId + '/ratings',{
-    tag_name,
+export const ratingList = (shopId, offset = 0, tag_name = '', limit =10) => fetch('/ugc/v2/restaurants/' + shopId + '/ratings',{
+    tag_name:encodeURIComponent(tag_name),
     offset,
     limit
 })

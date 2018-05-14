@@ -207,7 +207,7 @@
             </transition>
             <transition name="fade-choose">
                 <section class="rating_container" id="ratingContainer" v-show="changeShowType == 'rating' ">
-                    <section v-load-more="loaderMoreRating" type="2">
+                    <section type="2">
                         <section>
                             <header class="rating_header">
                                 <section class="rating_header_left">
@@ -233,7 +233,7 @@
                                 </section>
                             </header>
                             <ul class="tag_list_ul">
-                                <li v-for="(item, index) in ratingTagsList" :key="index" :class="{unsatisfied: item.unsatisfied, tagActivity: ratingTageIndex == index}" @click="">{{item.name}}({{item.count}})</li>
+                                <li v-for="(item, index) in ratingTagsList" :key="index" :class="{unsatisfied: item.unsatisfied, tagActivity: ratingTageIndex == index}" @click="changeTgeIndex(index, item.name)">{{item.name}}({{item.count}})</li>
                             </ul>
                             <ul class="rating_list_ul">
                                 <li v-for="(item, index) in ratingList" :key="index" class="rating_list_li">
@@ -331,6 +331,7 @@
     import { imgBaseUrl } from '../../config/env'
     import loading from '../../components/common/loading'
     import buyCart from '../../components/common/buyCart.vue'
+    import BScroll from 'better-scroll'
     import {shopDetails, foodMenu, ratingScores, ratingTags, ratingList} from '../../service/fetchData'
 
     export default {
@@ -359,6 +360,11 @@
                 ratingScoresData: null, //评价总体分数
                 ratingTagsList: null, //评价分类列表
                 loadRatings: false, //加载更多评论是显示加载组件
+                ratingTageIndex: 0, //评价分类索引
+                ratingScroll: null, //评论页Scroll
+                preventRepeatRequest: false,// 防止多次触发数据请求
+                ratingTageName:'',//评论的类型，用于按类型加载评论列表
+                ratingOffset: 0, //评价获取数据offset值
 
             }
         },
@@ -500,6 +506,54 @@
             //监听圆点是否进入购物车
             listeninCart(){
 
+            },
+            //获取不同类型的评论列表
+            async changeTgeIndex(index, name){
+                this.ratingTageIndex = index;
+                this.ratingOffset = 0;
+                this.ratingTagName = name;
+                let res = await ratingList(this.shopId, this.ratingOffset, name);
+                this.ratingList = [...res];
+                this.$nextTick(() => {
+                    this.ratingScroll.refresh();
+                })
+            },
+            //加载更多的评论
+            async loaderMoreRating(){
+                if(this.preventRepeatRequest){
+                    return;
+                }
+                this.loadRatings = true;
+                this.preventRepeatRequest = true;
+                this.ratingOffset += 10;
+                let ratingData = await ratingList(this.shopId, this.ratingOffset, this.ratingTageName);
+                this.ratingList = [...this.ratingList, ...ratingData];
+                this.loadRatings = false;
+                if(ratingData.length >= 10){
+                    this.preventRepeatRequest = false;
+                }
+            }
+        },
+        watch: {
+            //商品；评论切换状态
+            changeShowType(value){
+                if(value == 'rating'){
+                    this.$nextTick(() => {})
+                    this.ratingScroll = new BScroll('#ratingContainer', {
+                        probeType: 3,
+                        deceleration: 0.003,
+                        bounce: false,
+                        swipeTime: 2000,
+                        click: true,
+                    });
+                    let that = this;
+                    this.ratingScroll.on('scroll', (pos) => {
+                        if(Math.abs(Math.round(pos.y)) >= Math.abs(Math.round(that.ratingScroll.maxScrollY))){
+                            that.loaderMoreRating();
+                            that.ratingScroll.refresh();
+                        }
+                    })
+                }
             }
         }
     }
@@ -808,6 +862,14 @@
                     border: 1px;
                     margin: 0 .4rem .2rem 0;
                 }
+                .tagActivity{
+                    background-color: #3190e8;
+                    color: #fff;
+                }
+                .unsatisfied{
+                    background-color: #f5f5f5;
+                    color: #aaa;
+                }
             }
             .rating_list_ul{
                 padding: 0.6rem .4rem;
@@ -818,6 +880,7 @@
                     display: flex;
                     flex: 1;
                     border-top: 1px solid $bc;
+                    padding: 0.6rem 0;
                     .user_avatar{
                         width: 1.5rem;
                         height: 1.5rem;
@@ -825,11 +888,21 @@
                         margin-right: 0.5rem;
                     }
                     .rating_list_details{
+                        flex: 1;
                         header{
                             display: flex;
                             flex: 1;
-                            .username_star{
-
+                            justify-content: space-between;
+                            @include sc(0.4rem, #333);
+                            .star_desc{
+                                display: flex;
+                                padding: 0.4rem 0 .2rem;
+                                .time_spent_desc{
+                                    margin-left: 0.4rem;
+                                }
+                            }
+                            .rated_at{
+                                color: $fzGrey;
                             }
                         }
                         .food_img_ul{
@@ -841,6 +914,14 @@
                         }
                         .food_name_ul{
                             display: flex;
+                            li{
+                                width:2.2rem;
+                                margin-right: 0.5rem;
+                                padding:0.15rem 0.2rem;
+                                border: 1px solid $bc;
+                                font-size: 0.55rem;
+                                border-radius: .2rem;
+                            }
                         }
                     }
                 }
