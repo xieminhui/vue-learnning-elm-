@@ -644,7 +644,9 @@
         .shop_detail_header{
             width: 100%;
             overflow: hidden;
+            z-index: 100;
             position: relative;
+            background: $fc;
             .header_cover_img{
                 filter: blur(10px);
                 position: absolute;
@@ -714,6 +716,7 @@
             display: flex;
             background: $fc;
             width: 100%;
+            z-index: 100;
             padding: .6rem 0 .6rem;
             border-bottom: 1px solid #ebebeb;
             @include sc(0.65rem, #666);
@@ -884,7 +887,7 @@
         .rating_container{
             display: flex;
             flex: 1;
-            z-index: 99;
+            flex-direction: column;
             .rating_header{
                 display: flex;
                 padding: .8rem .5rem;
