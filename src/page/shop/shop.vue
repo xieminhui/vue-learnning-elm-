@@ -344,7 +344,7 @@
                 shopListImgBaseUrl,
                 shopDetailData:null,//商铺详情
                 changeShowType: 'food',//切换显示商品或者评价
-                menuList: null, //食品列表
+                menuList: [], //食品列表
                 menuIndexChange: true,//解决选中index时，scroll监听事件重复判断设置index的bug
                 shopListTop: [], //商品列表的高度集合
                 imgBaseUrl,//baseimgurl
@@ -368,6 +368,7 @@
                 ratingTageName:'',//评论的类型，用于按类型加载评论列表
                 ratingOffset: 0, //评价获取数据offset值
                 foodScroll: null,  //食品列表scroll
+                wrapperMenu: null,//食物列表左侧scroll
 
             }
         },
@@ -558,9 +559,45 @@
                     this.shopListTop[index] = item.offsetTop - baseHeight - chooseTypeHeight;
                 });
                 this.listenScroll(listContainer);
+            },
+            //当滑动食品列表时，监听scrollTop值来设置对应的食品
+            listenScroll(element){
+                this.foodScroll = new BScroll(element, {
+                    probeType: 3,
+                    deceleration: 0.001,
+                    bounce: false,
+                    swipeTime: 2000,
+                    click: true
+                });
+                this.wrapperMenu = new BScroll('#wrapper_menu', {
+                    click: true
+                });
+                this.foodScroll.on('scroll', (pos) => {
+                    this.shopListTop.forEach((item, index) =>{
+                        if(this.menuIndexChange && Math.abs(Math.round(pos.y)) >= item){
+                            this.menuIndex = index;
+                        }
+                    })
+                    let menuList = this.$refs.wrapperMenu.querySelectorAll('.activity_menu');
+                    let el = menuList[0];
+                    this.wrapperMenu.scrollToElement(el, 800);
+                })
             }
         },
         watch: {
+            //showLoading变化时说明组件已经获取到初始化数据了，可以在下一帧初始化scroll了
+            showLoading(value){
+                if(!value){
+                    this.$nextTick( () =>{
+                        this.getFoodListHeight();
+                        this.initCategoryNum();
+                    })
+                }
+            },
+            //购物车变化，触发购物相关的计算函数
+            shopCart(){
+                this.initCategoryNum();
+            },
             //商品；评论切换状态
             changeShowType(value){
                 if(value == 'rating'){
@@ -590,7 +627,11 @@
 
     .shop_container{
         display: flex;
-        flex-wrap: wrap;
+        flex-direction: column;
+        position: absolute;
+        right: 0;
+        left: 0;
+        height: 100%;
         overflow: hidden;
         .goback{
             position: fixed;
@@ -603,6 +644,7 @@
         .shop_detail_header{
             width: 100%;
             overflow: hidden;
+            position: relative;
             .header_cover_img{
                 filter: blur(10px);
                 position: absolute;
@@ -670,9 +712,7 @@
         }
         .change_show_type{
             display: flex;
-            margin-top: .5rem;
             background: $fc;
-            z-index: 99;
             width: 100%;
             padding: .6rem 0 .6rem;
             border-bottom: 1px solid #ebebeb;
@@ -692,17 +732,18 @@
         }
         .food_container{
             display: flex;
-            flex-wrap:wrap;
             flex: 1;
             background: #F5F5F5;
-            z-index: 99;
+            padding-bottom: 2rem;
             .menu_container{
                 flex: 1;
                 display: flex;
+                overflow-y: hidden;
+                position: relative;
                 .menu_left{
-                    flex-direction:column;
+                    width: 3.8rem;
                     .menu_left_li{
-                        display: flex;
+
                         @include sc(0.6rem, #333);
                         padding: 1rem 0.2rem;
                         width: 3.8rem;
@@ -724,8 +765,8 @@
                     }
                 }
                 .menu_right{
-                    flex-direction:row-reverse;
-                    flex: 1;
+                    flex: 4;
+                    overflow-y: auto;
                     .menu_detail_header{
                         display: flex;
                         padding: 0.6rem .5rem;
@@ -827,7 +868,17 @@
                 }
             }
             .buy_cart_container{
+                position: absolute;
+                background-color: #3d3d3f;
+                bottom: 0;
+                left: 0;
+                z-index: 13;
+                display: -webkit-box;
+                display: -webkit-flex;
+                display: -ms-flexbox;
                 display: flex;
+                width: 100%;
+                height: 2rem;
             }
         }
         .rating_container{
