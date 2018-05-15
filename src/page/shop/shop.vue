@@ -345,6 +345,8 @@
                 shopDetailData:null,//商铺详情
                 changeShowType: 'food',//切换显示商品或者评价
                 menuList: null, //食品列表
+                menuIndexChange: true,//解决选中index时，scroll监听事件重复判断设置index的bug
+                shopListTop: [], //商品列表的高度集合
                 imgBaseUrl,//baseimgurl
                 showSpecs:false,//控制显示食品规格
                 showDeleteTip: false, //多规格商品点击减按钮，弹出提示框
@@ -365,6 +367,7 @@
                 preventRepeatRequest: false,// 防止多次触发数据请求
                 ratingTageName:'',//评论的类型，用于按类型加载评论列表
                 ratingOffset: 0, //评价获取数据offset值
+                foodScroll: null,  //食品列表scroll
 
             }
         },
@@ -532,6 +535,29 @@
                 if(ratingData.length >= 10){
                     this.preventRepeatRequest = false;
                 }
+            },
+            //点击左侧食品列表标题，右侧相应滚到对应位置
+            chooseMenu(index){
+                this.menuIndex = index;
+                //menuIndexChange防止调用scrollTo滚动的时候出发listenScroll里面的scroll事件
+                this.menuIndexChange = false;
+                this.foodScroll.scrollTo(0, -this.shopListTop[index], 400);
+                this.foodScroll.on('scrollEnd', () => {
+                    this.menuIndexChange = true;
+                })
+            },
+            //获取食物列表的offsetTop，存入shopListTop
+            getFoodListHeight(){
+                const baseHeight = this.$refs.shopheader.clientHeight;
+                const chooseTypeHeight = this.$refs.chooseType.clientHeight;
+                const listContainer = this.$refs.menuFoodList;
+                //array.from() 方法从一个类似数组或可迭代对象中创建一个新的数组实例
+                const listArr = Array.from(listContainer.children[0].children);
+                listArr.forEach((item, index) => {
+                    //减去头部的高度是为了当滚动到包裹的父顶部往下多点的时候，左侧可以相应变化
+                    this.shopListTop[index] = item.offsetTop - baseHeight - chooseTypeHeight;
+                });
+                this.listenScroll(listContainer);
             }
         },
         watch: {
