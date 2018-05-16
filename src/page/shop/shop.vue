@@ -1,8 +1,8 @@
 <template>
     <div>
         <section v-if="!showLoading" class="shop_container">
-            <nav class="goback" @click="goback">
-                <svg width='4rem' height="100%" xmlns="http://www.w3.org/2000/svg" version="1.1">
+            <nav class="goback" >
+                <svg width='4rem' height="100%" xmlns="http://www.w3.org/2000/svg" version="1.1" @click="goback">
                     <polyline points="12,18 4,9 12,0" style="fill:none;stroke: rgb(255,255,255);stroke-width: 3;"/>
                 </svg>
             </nav>
@@ -317,7 +317,7 @@
         <section class="animation_opactiy shop_back_container" v-if="showLoading">
             <img src="../../images/shop_back_svg.svg">
         </section>
-        <transition nam="router-slid" mode="out-in">
+        <transition name="router-slid" mode="out-in">
             <router-view></router-view>
         </transition>
     </div>
@@ -1006,6 +1006,12 @@
                     }
                 }
             }
+        }
+        .router-slid-enter-active, .router-slid-leave-active{
+            transition: all .4s;
+        }
+        .router-slid-enter,.router-leave-to{
+            opacity: 0;
         }
     }
 </style>
