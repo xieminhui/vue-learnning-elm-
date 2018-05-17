@@ -147,7 +147,7 @@
                                     {{tatalNum}}
                                 </span>
                                 <svg class="cart_icon">
-                                    <use xmlns:xinlk="http://www.w3.org/1999/xlink" xinlk:href="#cart-icon"></use>
+                                    <use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#cart-icon"></use>
                                 </svg>
                             </div>
                             <div class="cart_num">
@@ -878,8 +878,53 @@
                 display: -webkit-flex;
                 display: -ms-flexbox;
                 display: flex;
+                justify-content: space-between;
                 width: 100%;
                 height: 2rem;
+                .cart_icon_num{
+                    display: flex;
+                    .cart_icon_container{
+                        display: flex;
+                        position: absolute;
+                        left: .5rem;
+                        top: -.7rem;
+                        background-color: #3d3d3f;
+                        border: 0.18rem solid #444;
+                        border-radius: 50%;
+                        padding:.4rem;
+                        svg{
+                            width: 1.2rem;
+                            height: 1.2rem;
+                        }
+                    }
+                    .cart_num{
+                        position: absolute;
+                        top: 50%;
+                        -webkit-transform: translateY(-50%);
+                        -ms-transform: translateY(-50%);
+                        transform: translateY(-50%);
+                        left: 3.5rem;
+                        @include sc(0.8rem, $fc);
+                        div:nth-of-type(1){
+                            font-weight: bolder;
+                        }
+                        div:nth-of-type(2){
+                            font-size: 0.5rem;
+                        }
+                    }
+                }
+                .gotopay{
+                    background-color: #535356;
+                    height: 2rem;
+                    .gotopay_button_style{
+                        @include sc(0.7rem, $fc);
+                        font-weight: bold;
+                        vertical-align: middle;
+                        line-height: 2rem;
+                        padding: 0 0.4rem;
+                    }
+                }
+
             }
         }
         .rating_container{
