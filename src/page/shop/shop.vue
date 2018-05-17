@@ -639,7 +639,6 @@
             left:0.2rem;
             right: 0;
             height: 2rem;
-            z-index: 999;
         }
         .shop_detail_header{
             width: 100%;
@@ -716,7 +715,6 @@
             display: flex;
             background: $fc;
             width: 100%;
-            z-index: 100;
             padding: .6rem 0 .6rem;
             border-bottom: 1px solid #ebebeb;
             @include sc(0.65rem, #666);
