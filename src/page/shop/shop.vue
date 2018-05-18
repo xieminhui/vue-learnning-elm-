@@ -511,6 +511,26 @@
             listeninCart(){
 
             },
+            //显示飞入购物车的svg图，svg的定位是fixed
+            beforeEnter(el){
+                el.style.transform = `translate3d(0, ${37 + this.elBottom - this.windowHeight}px,0)`;
+                el.children[0].style.transform = `translate3d(${this.elLeft - 30}px,0,0)`;
+                el.children[0].style.opacity = 0;
+            },
+            afterEnter(el){
+                el.style.transform = `translate3d(0, 0, 0)`;
+                el.children[0].style.transform = `translate3d(0,0,0)`;
+                el.style.transition = 'transform .55s  cubic-bezier(0.3, -0.25,0.7, -1.15)';
+                el.children[0].style.transition = 'transform .55s linear';
+                this.showMoveDot = this.showlicenseImg.map(item => false);
+                el.children[0].style.opacity = 1;
+                el.children[0].addEventListener('transitionend', () => {
+                    this.listenInCart();
+                })
+                el.children[0].addEventListener('webkitAnimationEnd', () => {
+                    this.listenInCart();
+                })
+            },
             //获取不同类型的评论列表
             async changeTgeIndex(index, name){
                 this.ratingTageIndex = index;
@@ -532,7 +552,7 @@
                 this.ratingOffset += 10;
                 let ratingData = await ratingList(this.shopId, this.ratingOffset, this.ratingTageName);
                 this.ratingList = [...this.ratingList, ...ratingData];
-                this.loadRatings = false;
+                this.loadRatings = false;cd
                 if(ratingData.length >= 10){
                     this.preventRepeatRequest = false;
                 }
@@ -1055,6 +1075,16 @@
         }
         .router-slid-enter,.router-leave-to{
             opacity: 0;
+        }
+        .move_dot{
+            position: fixed;
+            bottom: 30px;
+            left: 30px;
+
+            svg{
+                @include wh(.9rem, .9rem);
+                fill: #3190e8;
+            }
         }
     }
 </style>
