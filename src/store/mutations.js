@@ -28,7 +28,7 @@ export default {
     [INIT_BUYCART](state){
         let initData = getItem('buyCart');
         if(initData){
-            state.carList = initData;
+            state.cartList = initData;
         }
     },
     //添加购物车
@@ -45,7 +45,7 @@ export default {
         stock
     }){
         //这个组成的对象有点复杂，如下{餐馆(shopid)：{餐馆食物分类类别(category_id)：某个类别下的itemid(itemid)：某个类别下的食物id(foodid):{食物详情}}
-        let cart = state.carList;
+        let cart = state.cartList;
         let shop = cart[shopid] = (cart[shopid] || {});
         let category = shop[category_id] = (shop[category_id] || {});
         let item = category[item_id] = (category[item_id] || {});
@@ -63,8 +63,8 @@ export default {
                 'stock': stock
             }
         }
-        state.carList = {...cart};
-        setItem('buyCart', state.carList);
+        state.cartList = {...cart};
+        setItem('buyCart', state.cartList);
     },
     //移出购物车
     [REDUCE_CART](state,{
@@ -76,7 +76,7 @@ export default {
         price,
         specs,
     }){
-        let cart = state.carList;
+        let cart = state.cartList;
         let shop = (cart[shopid] || {});
         let category = (shop[category_id] || {});
         let item = (category[item_id] || {});
@@ -86,8 +86,8 @@ export default {
             }else{
                 item[food_id] = {};
             }
-            state.carList = {...cart};
-            setItem('buyCart', state.carList);
+            state.cartList = {...cart};
+            setItem('buyCart', state.cartList);
         }
     },
     //清空购物车

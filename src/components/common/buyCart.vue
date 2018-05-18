@@ -11,7 +11,7 @@
             <transition name="fade">
                 <span class="cart_num" v-if="foodNum">{{foodNum}}</span>
             </transition>
-            <svg class="add_icon" @touchstart="addTocart(foods)">
+            <svg class="add_icon" @touchstart="addTocart(foods,$event)">
                 <use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#cart-add"></use>
             </svg>
         </section>

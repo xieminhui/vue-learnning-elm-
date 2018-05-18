@@ -141,10 +141,10 @@
                         </section>
                     </section>
                     <section class="buy_cart_container">
-                        <section @click="toggleCarList" class="cart_icon_num">
+                        <section @click="toggleCartList" class="cart_icon_num">
                             <div class="cart_icon_container" :class="{cart_icon_activity: totalPrice >0, move_in_cart:receiveInCart}" ref="cartContainer">
                                 <span v-if="totalNum" class="cart_list_length">
-                                    {{tatalNum}}
+                                    {{totalNum}}
                                 </span>
                                 <svg class="cart_icon">
                                     <use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#cart-icon"></use>
@@ -155,7 +155,7 @@
                                 <div>配送费¥{{deliveryFee}}</div>
                             </div>
                         </section>
-                        <section class="gotopay" :class="{gotopay_activity:minimumOrderAmount<=0}">
+                        <section class="gotopay" :class="{gotopay_acitvity:minimumOrderAmount<=0}">
                             <span class="gotopay_button_style" v-if="minimumOrderAmount > 0">还差¥{{minimumOrderAmount}}起送</span>
                             <router-link :to="{path:'/confirmOrder', query:{geohash, shopId}}" class="gotopay_button_style" v-else>
                                 去结算
@@ -163,7 +163,7 @@
                         </section>
                     </section>
                     <transition name="toggle-cart">
-                        <section class="cart_food_list" v-show="showCartList && cartFoodList.length">
+                        <section class="cart_food_list" v-show="showCartList&&cartFoodList.length">
                             <header>
                                 <h4>购物车</h4>
                                 <div @click="clearCart">
@@ -201,7 +201,7 @@
                         </section>
                     </transition>
                     <transition name="fade">
-                        <div class="screen_cover" v-show="showCartList && cartFoodlist.length" @click=""></div>
+                        <div class="screen_cover" v-show="showCartList && cartFoodList.length" @click="toggleCartList"></div>
                     </transition>
                 </section>
             </transition>
@@ -369,7 +369,7 @@
                 ratingOffset: 0, //评价获取数据offset值
                 foodScroll: null,  //食品列表scroll
                 wrapperMenu: null,//食物列表左侧scroll
-
+                windowHeight:null,//屏幕的高度
             }
         },
         computed:{
@@ -414,6 +414,7 @@
         },
         mounted(){
             this.initData();
+            this.windowHeight = window.innerHeight;
         },
         props:[],
         mixins:[loadMore, getImgPath],
@@ -446,10 +447,11 @@
                 this.hideLoading();
             },
             async loaderMoreRating(){
-            },
-            //控制购物车列表是否显示
-            toggleCarList(){
 
+            },
+            //控制购物车列表的显示
+            toggleCartList(){
+                this.cartFoodList.length > 0 ? this.showCartList = !this.showCartList : true;
             },
             //清空购物车
             clearCart(){
@@ -471,7 +473,7 @@
                                 let foodItem = this.shopCart[item.foods[0].category_id][itemid][foodid];
                                 num += foodItem.num;
                                 if(item.type == 1){
-                                    this.totalPrice += foodItem.num * foodItem.num;
+                                    this.totalPrice += foodItem.num * foodItem.price;
                                     if(foodItem.num >0){
                                         this.cartFoodList[cartFoodNum] = {
                                             category_id : item.foods[0].category_id,
@@ -504,14 +506,19 @@
 
             },
             //显示下落的小球
-            showMoveDotFun(){
-
+            showMoveDotFun(showMoveDot, elLeft, elBottom){
+                this.showMoveDot = [...this.showMoveDot,...showMoveDot];
+                this.elLeft =elLeft;
+                this.elBottom = elBottom;
             },
             //监听圆点是否进入购物车
             listeninCart(){
 
             },
             //显示飞入购物车的svg图，svg的定位是fixed
+            //解释下transition的这个动画效果
+            //带有enter的字段：表示dom插入的时候执行的动画效果，用v-if渲染是表示true
+            //leave相关的字段，表示dom被移除的时候执行的动画效果，用v-if渲染是表示false
             beforeEnter(el){
                 el.style.transform = `translate3d(0, ${37 + this.elBottom - this.windowHeight}px,0)`;
                 el.children[0].style.transform = `translate3d(${this.elLeft - 30}px,0,0)`;
@@ -522,13 +529,13 @@
                 el.children[0].style.transform = `translate3d(0,0,0)`;
                 el.style.transition = 'transform .55s  cubic-bezier(0.3, -0.25,0.7, -1.15)';
                 el.children[0].style.transition = 'transform .55s linear';
-                this.showMoveDot = this.showlicenseImg.map(item => false);
+                this.showMoveDot = this.showMoveDot.map(item => false);
                 el.children[0].style.opacity = 1;
                 el.children[0].addEventListener('transitionend', () => {
-                    this.listenInCart();
+                    this.listeninCart();
                 })
                 el.children[0].addEventListener('webkitAnimationEnd', () => {
-                    this.listenInCart();
+                    this.listeninCart();
                 })
             },
             //获取不同类型的评论列表
@@ -764,7 +771,7 @@
                 .menu_left{
                     width: 3.8rem;
                     .menu_left_li{
-
+                        position: relative;
                         @include sc(0.6rem, #333);
                         padding: 1rem 0.2rem;
                         width: 3.8rem;
@@ -777,6 +784,21 @@
                             font-weight: bold;
                             vertical-align: middle;
                             line-height: 0.5rem;
+                        }
+                        .category_num{
+                            position: absolute;
+                            top: .1rem;
+                            right: .1rem;
+                            background-color: #ff461d;
+                            line-height: .6rem;
+                            text-align: center;
+                            border-radius: 50%;
+                            border: 0.025rem solid #ff461d;
+                            min-width: .6rem;
+                            height: .6rem;
+                            font-size: 0.5rem;
+                            color: #fff;
+                            font-family: Helvetica Neue,Tahoma,Arial;
                         }
 
                     }
@@ -903,6 +925,7 @@
                 height: 2rem;
                 .cart_icon_num{
                     display: flex;
+                    flex: 1;
                     .cart_icon_container{
                         display: flex;
                         position: absolute;
@@ -912,10 +935,27 @@
                         border: 0.18rem solid #444;
                         border-radius: 50%;
                         padding:.4rem;
+                        .cart_list_length{
+                            position: absolute;
+                            top:-.25rem;
+                            right: -.25rem;
+                            background-color: #ff461d;
+                            border: 0.025rem solid #ff461d;
+                            color: $fc;
+                            font-size: 0.65rem;
+                            border-radius: 50%;
+                            line-height: .7rem;
+                            min-width: .7rem;
+                            text-align: center;
+                        }
                         svg{
                             width: 1.2rem;
                             height: 1.2rem;
                         }
+
+                    }
+                    .cart_icon_activity{
+                        background-color: #3190e8;
                     }
                     .cart_num{
                         position: absolute;
@@ -944,7 +984,25 @@
                         padding: 0 0.4rem;
                     }
                 }
+                .gotopay_acitvity{
+                    background-color: #4cd964;
+                    width: 5rem;
+                    text-align: center;
+                }
 
+            }
+            .cart_food_list{
+                z-index: 15;
+                background: $fc;
+            }
+            .screen_cover{
+                position: fixed;
+                top: 0;
+                bottom: 0;
+                left: 0;
+                right: 0;
+                background-color: rgba(0,0,0,.3);
+                z-index: 11;
             }
         }
         .rating_container{
@@ -1076,15 +1134,26 @@
         .router-slid-enter,.router-leave-to{
             opacity: 0;
         }
-        .move_dot{
-            position: fixed;
-            bottom: 30px;
-            left: 30px;
-
-            svg{
-                @include wh(.9rem, .9rem);
-                fill: #3190e8;
-            }
+        .fade-enter-active, .fade-leave-active {
+            transition: opacity .5s;
+        }
+        .fade-enter, .fade-leave-active {
+            opacity: 0;
+        }
+        .toggle-cart-enter-active, .toggle-cart-leave-active {
+            transition: all .3s ease-out;
+        }
+        .toggle-cart-enter, .toggle-cart-leave-active {
+            transform: translateY(100%);
+        }
+    }
+    .move_dot{
+        position: fixed;
+        bottom: 30px;
+        left: 30px;
+        svg{
+            @include wh(.9rem, .9rem);
+            fill: #3190e8;
         }
     }
 </style>
