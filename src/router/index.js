@@ -38,7 +38,7 @@ export default [{
             path: '/shop',
             component:shop,
             children: [{
-                path: 'footDetail',//食物详情页
+                path: 'foodDetail',//食物详情页
                 component: foodDetail,
             }, {
                 path: 'shopDetail',//商铺详情页
