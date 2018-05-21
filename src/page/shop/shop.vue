@@ -184,14 +184,13 @@
                                            <span>¥</span>
                                            <span>{{item.price}}</span>
                                        </div>
-                                       <section>
-                                           <span @click="">
-                                               <svg>
-                                                   <use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#cart-minus"></use>
-                                               </svg>
-                                           </span>
+                                       <section class="cart_list_control">
+                                           <svg @click="removeOutCart(item)">
+                                               <use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#cart-minus"></use>
+                                           </svg>
+
                                            <span class="cart_num">{{item.num}}</span>
-                                           <svg class="cart_add" >
+                                           <svg class="cart_add" @click="addTocart(item)">
                                                <use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#cart-add"></use>
                                            </svg>
                                        </section>
@@ -455,7 +454,33 @@
             },
             //清空购物车
             clearCart(){
-
+                this.toggleCartList();
+                this.CLEAR_CART();
+            },
+            //增加到购物车
+            addTocart(item){
+                let obj = {
+                    shopid: this.shopId,
+                    category_id: item.category_id,
+                    item_id : item.item_id,
+                    food_id: item.food_id,
+                    name: item.name,
+                    specs: item.specs,
+                    packing_fee: '',
+                    sku_id: '',
+                    stock :''
+                };
+                this.ADD_CART(obj);
+            },
+            //移出购物车
+            removeOutCart(item){
+                let obj = {
+                    shopid: this.shopId,
+                    category_id: item.category_id,
+                    item_id : item.item_id,
+                    food_id: item.food_id,
+                };
+                this.REDUCE_CART(obj);
             },
             /*
             * 初始化和shopcart变化时，重新获取购物车改变的数据，接着赋值给categoryNum,tatalPrice,cartFoodList,
@@ -609,7 +634,8 @@
                     let el = menuList[0];
                     this.wrapperMenu.scrollToElement(el, 800);
                 })
-            }
+            },
+
         },
         watch: {
             //showLoading变化时说明组件已经获取到初始化数据了，可以在下一帧初始化scroll了
@@ -992,8 +1018,69 @@
 
             }
             .cart_food_list{
-                z-index: 15;
+                position: fixed;
+                bottom: 0;
+                left: 0;
+                right: 0;
+                padding-bottom: 2rem;
+                z-index: 12;
                 background: $fc;
+                header{
+                    display: flex;
+                    flex: 1;
+                    padding: .3rem .6rem;
+                    background-color: #eceff1;
+                    justify-content: space-between;
+                    align-items: center;
+                    h4{
+                        @include sc(0.7rem, #666);
+                    }
+                    div{
+                        display: flex;
+                        align-items: center;
+                        svg{
+                            @include wh(.6rem, .6rem);
+                            margin-right: 0.3rem;
+                        }
+                        span{
+                            @include sc(0.6rem, #666);
+                        }
+                    }
+                }
+                .cart_food_details{
+                    max-height: 20rem;
+                    overflow: auto;
+                    padding-top: 0.6rem;
+                    .cart_food_li{
+                        display: flex;
+                        justify-content: space-between;
+                        @include sc(0.8rem, #666);
+                        padding: 0 .4rem 0.6rem;
+                        .cart_list_num{
+                            width: 50%;
+                            p{
+                                font-weight: bold;
+                            }
+                        }
+                        .cart_list_price{
+                            font-size: 0.7rem;
+                            color: #f60;
+                            font-family: Helvetica Neue,Tahoma;
+                            font-weight: bold;
+                        }
+                        .cart_list_control{
+                            display: flex;
+                            svg{
+                                @include wh(1rem, 1rem);
+                                fill: #3190e8;
+                            }
+                            .cart_num{
+                                min-width: 1rem;
+                                text-align: center;
+                            }
+                        }
+                    }
+                }
             }
             .screen_cover{
                 position: fixed;
