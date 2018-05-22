@@ -77,6 +77,43 @@
         left: 0;
         right: 0;
         background: $fc;
-        z-index: 15;
+        z-index: 12;
+        padding-top: 2rem;
+        .header_img{
+            width: 100%;
+            img{
+                width: 100%;
+                width: 100%;
+            }
+        }
+        .description{
+            margin: 0.4rem ;
+            @include sc(0.65rem, #333);
+        }
+        .detail_container{
+            margin: 0.4rem;
+            @include sc(0.65rem, #333);
+            .rating_sale{
+                display: flex;
+                padding: 0.4rem 0;
+                span:nth-of-type(1){
+                    padding-right:0.4rem;
+                }
+                span:nth-of-type(2){
+                    padding-left:0.4rem;
+                }
+            }
+            p:nth-of-type(2){
+                span{
+                    color: #f60
+                }
+                span:nth-of-type(1){
+                    color: #333;
+                }
+            }
+            p:nth-of-type(3){
+                margin-top: 0.4rem;
+            }
+        }
     }
 </style>
