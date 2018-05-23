@@ -282,7 +282,7 @@
                     <section class="specs_details">
                         <h5 class="specs_details_title">{{choosedFoods.specifications[0].name}}</h5>
                         <ul>
-                            <li v-for="(item, index) in choosedFoods.specifications[0].values" :class="{specs_activity: index == specsIndex}" @click="">
+                            <li v-for="(item, index) in choosedFoods.specifications[0].values" :class="{specs_activity: index == specsIndex}" @click="chooseSpecs(index)">
                                 {{item}}
                             </li>
                         </ul>
@@ -292,7 +292,7 @@
                             <span>¥</span>
                             <span>{{choosedFoods.specfoods[specsIndex].price}}</span>
                         </div>
-                        <div class="specs_addto_cart" @click="">加入购物车</div>
+                        <div class="specs_addto_cart" @click="addSpecs(choosedFoods.category_id, choosedFoods.item_id, choosedFoods.specfoods[specsIndex].food_id, choosedFoods.specfoods[specsIndex].name, choosedFoods.specfoods[specsIndex].price, choosedFoods.specifications[0].values[specsIndex], choosedFoods.specfoods[specsIndex].packing_fee, choosedFoods.specfoods[specsIndex].sku_id, choosedFoods.specfoods[specsIndex].stock)">加入购物车</div>
                     </footer>
                 </div>
             </transition>
@@ -370,6 +370,7 @@
                 wrapperMenu: null,//食物列表左侧scroll
                 windowHeight:null,//屏幕的高度
                 chooseFoods:null,//特殊食物选规格
+                specsIndex:0,//特殊食物默认index
             }
         },
         computed:{
@@ -456,7 +457,7 @@
             //清空购物车
             clearCart(){
                 this.toggleCartList();
-                this.CLEAR_CART();
+                this.CLEAR_CART(this.shopId);
             },
             //增加到购物车
             addTocart(item){
@@ -531,6 +532,15 @@
                 this.showSpecs = !this.showSpecs;
                 this.specsIndex =0;
             },
+            //选择规格
+            chooseSpecs(index){
+               this.specsIndex = index;
+            },
+            //多规格商品加入购物车
+            addSpecs(category_id, item_id, food_id, name, price, specs, packing_fee, sku_id, stock){
+                this.ADD_CART({shopid:this.shopId, category_id, item_id, food_id, name, price, specs, packing_fee, sku_id, stock});
+                this.showChooseList();
+            },
             //显示提示，无法减去商品
             showReduceTip(){
 
@@ -541,9 +551,17 @@
                 this.elLeft =elLeft;
                 this.elBottom = elBottom;
             },
-            //监听圆点是否进入购物车
+            //监听圆点是否进入购物车,进入购物车后执行动画效果，mymove
             listeninCart(){
-
+                if(!this.receiveInCart){
+                    this.receiveInCart = true;
+                    this.$refs.cartContainer.addEventListener('animationend', () => {
+                        this.receiveInCart = false;
+                    })
+                    this.$refs.cartContainer.addEventListener('webkitAnimationEnd', () =>{
+                        this.receiveInCart = false;
+                    })
+                }
             },
             //显示飞入购物车的svg图，svg的定位是fixed
             //解释下transition的这个动画效果
@@ -1059,12 +1077,16 @@
                     .cart_food_li{
                         display: flex;
                         justify-content: space-between;
-                        @include sc(0.8rem, #666);
+                        @include sc(0.75rem, #666);
                         padding: 0 .4rem 0.6rem;
                         .cart_list_num{
                             width: 50%;
                             p{
                                 font-weight: bold;
+                            }
+                            p:nth-of-type(2){
+                                @include sc(0.5rem, #666);
+                                font-weight: normal;
                             }
                         }
                         .cart_list_price{
@@ -1219,6 +1241,37 @@
                     }
                 }
             }
+        }
+        .move_in_cart{
+            animation: mymove .5s ease-in-out;
+        }
+        @keyframes mymove {
+            0% { transform: scale(1) }
+            25% { transform: scale(.8) }
+            50% { transform: scale(1.1) }
+            75% { transform: scale(.9) }
+            100% { transform: scale(1) }
+        }
+        @-moz-keyframes mymove {
+            0% { transform: scale(1) }
+            25% { transform: scale(.8) }
+            50% { transform: scale(1.1) }
+            75% { transform: scale(.9) }
+            100% { transform: scale(1) }
+        }
+        @-webkit-keyframes mymove {
+            0% { transform: scale(1) }
+            25% { transform: scale(.8) }
+            50% { transform: scale(1.1) }
+            75% { transform: scale(.9) }
+            100% { transform: scale(1) }
+        }
+        @-o-keyframes mymove {
+            0% { transform: scale(1) }
+            25% { transform: scale(.8) }
+            50% { transform: scale(1.1) }
+            75% { transform: scale(.9) }
+            100% { transform: scale(1) }
         }
         .router-slid-enter-active, .router-slid-leave-active{
             transition: all .4s;
