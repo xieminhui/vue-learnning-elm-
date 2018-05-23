@@ -274,15 +274,15 @@
                 <div class="specs_list" v-if="showSpecs">
                     <header class="specs_list_header">
                         <h4 class="ellipsis">{{choosedFoods.name}}</h4>
-                        <svg width="16" height="16" xmlns="http://www.w3.org/2000/svg" version="1.1" class="specs_cancel" @click="">
+                        <svg width="16" height="16" xmlns="http://www.w3.org/2000/svg" version="1.1" class="specs_cancel" @click="showChooseList">
                             <line x1="0" y1="0" x2="16" y2="16" stroke="#666" stroke-width="1.2" />
                             <line x1="0" y1="16" x2="16" y2="0" stroke="#666" stroke-width="1.2"/>
                         </svg>
                     </header>
                     <section class="specs_details">
-                        <h5 class="specs_details_title">{{chooseFoods.specifications[0].name}}</h5>
+                        <h5 class="specs_details_title">{{choosedFoods.specifications[0].name}}</h5>
                         <ul>
-                            <li v-for="(item, index) in choosedFoods.specifications[0].values" :class="{specs_activity: itemIndex == specsIndex}" @click="">
+                            <li v-for="(item, index) in choosedFoods.specifications[0].values" :class="{specs_activity: index == specsIndex}" @click="">
                                 {{item}}
                             </li>
                         </ul>
@@ -290,7 +290,7 @@
                     <footer class="specs_footer">
                         <div class="specs_price">
                             <span>¥</span>
-                            <span>{{choosedFoods.specfodds[specsIndex].price}}</span>
+                            <span>{{choosedFoods.specfoods[specsIndex].price}}</span>
                         </div>
                         <div class="specs_addto_cart" @click="">加入购物车</div>
                     </footer>
@@ -369,6 +369,7 @@
                 foodScroll: null,  //食品列表scroll
                 wrapperMenu: null,//食物列表左侧scroll
                 windowHeight:null,//屏幕的高度
+                chooseFoods:null,//特殊食物选规格
             }
         },
         computed:{
@@ -524,7 +525,11 @@
             },
             //显示规格列表
             showChooseList(foods){
-
+                if(foods){
+                    this.choosedFoods = foods;
+                }
+                this.showSpecs = !this.showSpecs;
+                this.specsIndex =0;
             },
             //显示提示，无法减去商品
             showReduceTip(){
@@ -692,11 +697,11 @@
             left:0.2rem;
             right: 0;
             height: 2rem;
+            z-index: 11;
         }
         .shop_detail_header{
             width: 100%;
             overflow: hidden;
-            z-index: 100;
             position: relative;
             background: $fc;
             .header_cover_img{
@@ -1241,6 +1246,74 @@
         svg{
             @include wh(.9rem, .9rem);
             fill: #3190e8;
+        }
+    }
+    .specs_cover{
+        position: fixed;
+        top:0;
+        left:0;
+        right: 0;
+        bottom: 0;
+        background: rgba(0,0,0,0.4);
+        z-index: 16;
+    }
+    .specs_list{
+        @include center();
+        background: $fc;
+        width: 70%;
+        z-index: 17;
+        border-radius: 0.4rem;
+        .specs_list_header{
+            @include sc(0.7rem, #333);
+            padding: 0.6rem;
+            h4{
+                text-align: center;
+            }
+            .specs_cancel{
+                position: absolute;
+                top:.6rem;
+                right: .4rem;
+            }
+        }
+        .specs_details{
+            padding: 0.4rem;
+            font-size: 0.65rem;
+            .specs_details_title{
+                @include sc(0.6rem, #666);
+            }
+            ul{
+                display: flex;
+                align-items: center;
+                li{
+                    margin: 0.2rem 0.4rem 0.2rem 0;
+                    padding: 0.2rem .4rem;
+                    border: 0.05rem solid $bc;
+                    border-radius: 0.2rem;
+                    vertical-align: middle;
+                }
+                .specs_activity{
+                    color: #3199e8;
+                    border-color: #3199e8;
+                }
+            }
+        }
+        .specs_footer{
+            display: flex;
+            justify-content: space-between;
+            padding: 0.8rem 0.4rem;
+            .specs_price{
+                span{
+                    @include sc(0.8rem, #ff6000);
+                    font-weight: bold;
+                }
+            }
+            .specs_addto_cart{
+                background: #3199e8;
+                border: 0.05rem solid #3199e8;
+                border-radius: 0.2rem;
+                @include sc(0.65rem, $fc);
+                padding: 0.2rem .4rem;
+            }
         }
     }
 </style>
