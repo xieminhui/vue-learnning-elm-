@@ -7,6 +7,7 @@ const shop = r => require.ensure([], () => r(require('../page/shop/shop')), 'sho
 const foodDetail = r => require.ensure([], () => r(require('../page/shop/foodDetail')), 'foodDetail');
 const shopDetail = r => require.ensure([], () => r(require('../page/shop/shopDetail')), 'shopDetail');
 const shopSafe = r => require.ensure([], () => r(require('../page/shop/shopSafe')), 'shopSafe');
+const confirmOrder = r => require.ensure([], () => r(require('../page/confirmOrder/confirmOrder')), 'confirmOrder')
 
 
 export default [{
@@ -48,6 +49,11 @@ export default [{
                     component: shopSafe
                 }]
             }]
+        },
+        //确认订单页
+        {
+            path: '/confirmOrder',
+            component: confirmOrder
         }
     ]
 }]
