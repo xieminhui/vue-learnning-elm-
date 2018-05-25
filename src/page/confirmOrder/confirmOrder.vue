@@ -142,11 +142,15 @@
                 shopId:null,//商店id值
                 imgBaseUrl: shopListImgBaseUrl,
                 showLoading: false,//显示加载动画
+                checkoutData:null,//检验购物车后后台放回值
+                shopCart:null,//购物车
             }
         },
         created(){
             this.geohash = this.$route.query.geohash;
             this.shopId = this.$route.query.shopId;
+            this.INIT_BUYCART();
+            this.shopCart = this.cartList[this.shopId];
         },
         mounted(){
 
@@ -157,7 +161,17 @@
             alerttip
         },
         computed: {
+            ...mapState([
+                'carList','choosedAddress'
+            ])
+        },
+        methods : {
+            ...mapMutations([
+                'INIT_BUYCART',
+            ]),
+            async initData(){
 
+            }
         }
     }
 </script>

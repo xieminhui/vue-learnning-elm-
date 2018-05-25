@@ -13,6 +13,7 @@ const state = {
     longitude: '', // 当前位置经度
     cartList: {},//加入购物车的商品列表
     shopDetail: null,//商家店铺详情
+    choosedAddress: null,//选择地址
 }
 
 export default new Vuex.Store({
