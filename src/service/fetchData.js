@@ -94,3 +94,12 @@ export const ratingList = (shopId, offset = 0, tag_name = '', limit =10) => fetc
     offset,
     limit
 })
+
+/*
+*  提交订单检查
+* */
+export const checkOut = (geohash, entities, restaurant_id) => fetch('/v1/carts/checkout', {
+    geohash,
+    entities,
+    restaurant_id
+}, 'POST')
