@@ -136,7 +136,7 @@
     import {mapState, mapMutations } from 'vuex'
     import headTop from '../../components/header/header.vue'
     import loading from '../../components/common/loading.vue'
-    import alerttip from '../../components/common/alertTip.vue'
+    import alertTip from '../../components/common/alertTip.vue'
     import { shopListImgBaseUrl } from '../../config/env'
     import { checkOut } from '../../service/fetchData'
 
@@ -149,6 +149,8 @@
                 showLoading: false,//显示加载动画
                 checkoutData:null,//检验购物车后后台放回值
                 shopCart:null,//购物车
+                showAlert:true,//提示框
+                alertText:'请先登录',
             }
         },
         created(){
@@ -163,7 +165,7 @@
         components: {
             headTop,
             loading,
-            alerttip
+            alertTip
         },
         computed: {
             ...mapState([
