@@ -116,7 +116,7 @@
                         <li v-for="item in checkoutData.payments" :key="item.id" :class="{choose: payWayId == item.id}">
                             <span>{{item.name}}</span>
                             <span v-if="item.is_online_payment">{{item.description}}</span>
-                            <svg class="address_empty_right" @click="">
+                            <svg class="address_empty_right" >
                                 <use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#select"></use>
                             </svg>
                         </li>
@@ -125,7 +125,7 @@
             </transition>
         </section>
         <loading v-if="showLoading"></loading>
-        <alert-tip v-if="showAlert" @closeTip="showAler = false" :alertText="alertText"></alert-tip>
+        <alert-tip v-if="showAlert" @closeTip="showAlert = false" :alertText="alertText"></alert-tip>
         <transition name="router-slid" mode="out-in">
             <router-view></router-view>
         </transition>
@@ -151,6 +151,8 @@
                 shopCart:null,//购物车
                 showAlert:true,//提示框
                 alertText:'请先登录',
+                showPayWay:false,//显示付款方式
+
             }
         },
         created(){
@@ -169,7 +171,7 @@
         },
         computed: {
             ...mapState([
-                'cartList','choosedAddress'
+                'cartList','choosedAddress','remarkText','inputText',
             ])
         },
         methods : {
@@ -197,6 +199,14 @@
                     })
                 })
                 this.checkoutData = await checkOut(this.geohash, [newArr], this.shopId);
+            },
+            //显示付款方式
+            showPayWayFun(){
+
+            },
+            //确认订单
+            async confirmOrder(){
+
             }
         }
     }

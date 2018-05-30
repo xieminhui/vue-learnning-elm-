@@ -14,6 +14,8 @@ const state = {
     cartList: {},//加入购物车的商品列表
     shopDetail: null,//商家店铺详情
     choosedAddress: null,//选择地址
+    remarkText: null,//可选备注内容
+    inputText:'',//输入备注内容
 }
 
 export default new Vuex.Store({

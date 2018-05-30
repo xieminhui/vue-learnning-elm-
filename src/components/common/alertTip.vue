@@ -32,6 +32,12 @@
 
 <style type="text/scss" lang="scss" scoped>
     @import "../../style/mixin";
+    @keyframes tipMove {
+        0% {transform: scale(1)}
+        35% {transform: scale(0.8)}
+        70% {transform: scale(1.1)}
+        100% {transform: scale(1)}
+    }
     .alert_container{
         position: fixed;
         top:0;
@@ -40,14 +46,19 @@
         right:0;
         z-index: 200;
         .tip_text_container{
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            margin-top: -6rem;
+            margin-left: -6rem;
             display: flex;
             align-items: center;
             justify-content: center;
             flex-direction: column;
-            @include center();
             background-color: $fc;
             border-radius: 0.2rem;
             width:12rem;
+            animation: tipMove .4s;
             text-align: center;
             .tip_icon{
                 display: flex;
@@ -80,7 +91,8 @@
                 font-weight: bolder;
                 width: 100%;
                 background-color: #4cd964;
-                border-radius: 0.2rem;
+                border-bottom-left-radius: 0.25rem;
+                border-bottom-right-radius: 0.25rem;
             }
         }
     }
