@@ -55,7 +55,7 @@
         position: fixed;
         top:0;
         left: 0;
-        z-index: 10000;
+        z-index: 100;
         background-color: $blue;
         @include wh(100%,1.95rem);
     }

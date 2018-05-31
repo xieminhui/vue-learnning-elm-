@@ -2,7 +2,7 @@
     <div class="confirmOrderContainer">
         <section v-if="!showLoading">
             <headTop head-title="确认订单" goBack="true" signin-up='confirmOrder'></headTop>
-            <router-link :to="{path:'/confirmOrder/chooseAddress'} " class="address_container">
+            <router-link :to="{path:'/confirmOrder/chooseAddress', query:{id:checkoutData.cart.id, sig:checkoutData.sig}} " class="address_container">
                 <div class="address_empty_left">
                     <svg class="location_icon">
                         <use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#location"></use>
