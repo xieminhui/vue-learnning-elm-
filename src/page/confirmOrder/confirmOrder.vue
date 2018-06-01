@@ -114,8 +114,8 @@
                     <header>支付方式</header>
                     <ul>
                         <li v-for="item in checkoutData.payments" :key="item.id" :class="{choose: payWayId == item.id}">
-                            <span>{{item.name}}</span>
-                            <span v-if="item.is_online_payment">{{item.description}}</span>
+                            <span>{{item.name}} <span v-if="item.is_online_payment">{{item.description}}</span></span>
+
                             <svg class="address_empty_right" >
                                 <use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#select"></use>
                             </svg>
@@ -149,7 +149,7 @@
                 showLoading: false,//显示加载动画
                 checkoutData:null,//检验购物车后后台放回值
                 shopCart:null,//购物车
-                showAlert:true,//提示框
+                showAlert:false,//提示框
                 alertText:'请先登录',
                 showPayWay:false,//显示付款方式
                 payWayId:1,//付款方式
@@ -163,6 +163,9 @@
         },
         mounted(){
             this.initData();
+            if(!(this.userInfo && this.userInfo.user_id)){
+                this.showAlert = true;
+            }
         },
         components: {
             headTop,
@@ -171,7 +174,7 @@
         },
         computed: {
             ...mapState([
-                'cartList','choosedAddress','remarkText','inputText',
+                'cartList','choosedAddress','remarkText','inputText','userInfo',
             ])
         },
         methods : {
@@ -389,15 +392,54 @@
         .choose_type_Container{
             position: fixed;
             bottom: 0px;
+            left: 0;
+            right: 0;
             min-height: 10rem;
             background-color: $fc;
             z-index: 224;
+            header {
+                padding: 0.5rem;
+                font-size: 0.7rem;
+                text-align: center;
+                background-color: #fafafa;
+            }
+            li{
+                display: flex;
+                justify-content: space-between;
+                flex: 1;
+                padding: 0.5rem;
+                font-size: 0.7rem;
+                color: #ccc;
+                svg{
+                    @include wh(.8rem, .8rem);
+                    fill: #ccc;
+                }
+            }
+            .choose{
+                color: #333;
+                svg{
+                    fill:#4cd964;
+                }
+            }
         }
-        .slid_up-enter-active,.slid_up-leave-active{
+        .fade-enter-active, .fade-leave-active{
+            transition: opacity .3s;
+        }
+        .fade-enter, .fade-leave-to{
+            opacity: 0;
+        }
+        .slid_up-enter-active, .slid_up-leave-active {
             transition: all .3s;
         }
-        .sild_up-enter, .sild_up-leave-to{
-            transform: translate3d(0, 10rem, 0)
+        .slid_up-enter, .slid_up-leave-to {
+            transform: translate3d(0,10rem,0)
+        }
+        .router-slid-enter-active, .router-slid-leave-active {
+            transition: all .4s;
+        }
+        .router-slid-enter, .router-slid-leave-to {
+            transform: translate3d(2rem, 0, 0);
+            opacity: 0;
         }
     }
 </style>
