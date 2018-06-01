@@ -109,7 +109,7 @@
             <transition name="fade">
                 <div class="cover" v-if="showPayWay" @click="showPayWayFun"></div>
             </transition>
-            <transition name="slid_up">
+            <transition name="sild_up">
                 <div class="choose_type_Container" v-if="showPayWay">
                     <header>支付方式</header>
                     <ul>
@@ -152,7 +152,7 @@
                 showAlert:true,//提示框
                 alertText:'请先登录',
                 showPayWay:false,//显示付款方式
-
+                payWayId:1,//付款方式
             }
         },
         created(){
@@ -202,7 +202,7 @@
             },
             //显示付款方式
             showPayWayFun(){
-
+                this.showPayWay = !this.showPayWay;
             },
             //确认订单
             async confirmOrder(){
@@ -376,6 +376,28 @@
             p:nth-of-type(2){
                 background-color: #56d176;
             }
+        }
+        .cover{
+            position: fixed;
+            top:0;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background-color: rgba(0, 0, 0, 0.3);
+            z-index: 223;
+        }
+        .choose_type_Container{
+            position: fixed;
+            bottom: 0px;
+            min-height: 10rem;
+            background-color: $fc;
+            z-index: 224;
+        }
+        .slid_up-enter-active,.slid_up-leave-active{
+            transition: all .3s;
+        }
+        .sild_up-enter, .sild_up-leave-to{
+            transform: translate3d(0, 10rem, 0)
         }
     }
 </style>
