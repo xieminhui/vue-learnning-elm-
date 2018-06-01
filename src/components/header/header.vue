@@ -29,7 +29,7 @@
             }
         },
         mounted(){
-
+            this.getUserInfo();
         },
         props: ['signinUp','headTitle', 'goBack'],
         computed:{

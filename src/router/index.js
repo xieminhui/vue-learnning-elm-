@@ -2,6 +2,7 @@ import App from '../App'
 
 const home = r => require.ensure([], () => r(require('../page/home/home')), 'home');
 const city = r => require.ensure([], () => r(require('../page/city/city')), 'city');
+const login = r => require.ensure([], () => r(require('../page/login/login')), 'login');
 const msite = r => require.ensure([], () => r(require('../page/msite/msite')), 'msite');
 const shop = r => require.ensure([], () => r(require('../page/shop/shop')), 'shop');
 const foodDetail = r => require.ensure([], () => r(require('../page/shop/foodDetail')), 'foodDetail');
@@ -23,6 +24,11 @@ export default [{
         {
             path: '/home',
             component: home
+        },
+        //登录
+        {
+            path: '/login',
+            component: login
         },
         //点击城市
         {
