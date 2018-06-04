@@ -103,3 +103,8 @@ export const checkOut = (geohash, entities, restaurant_id) => fetch('/v1/carts/c
     entities,
     restaurant_id
 }, 'POST')
+
+/*
+* 获取图片验证码
+* */
+export const getCaptchas = () => fetch('v1/captchas', {}, 'post');

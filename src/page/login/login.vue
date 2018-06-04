@@ -15,11 +15,11 @@
             <section class="input_container">
                 <input type="text" placeholder="账号" v-model.lazy="userAccount">
             </section>
-            <section class="inut_container">
+            <section class="input_container">
                 <input v-if="!showPassword" type="password" placeholder="密码" v-model="passWord">
                 <input v-else type="text" placeholder="密码" v-model="passWord">
                 <div class="button_switch" :class="{change_to_text:showPassword}">
-                    <div class="circel_button" :class="{trans_to_right:shwoPassword}" @click="changePassWordType"></div>
+                    <div class="circel_button" :class="{trans_to_right:showPassword}" @click="changePassWordType"></div>
                     <span>abc</span>
                     <span>...</span>
                 </div>
@@ -51,21 +51,94 @@
     import headTop from '../../components/header/header.vue'
     import alertTip from '../../components/common/alertTip.vue'
     import { mapState, mapMutations } from 'vuex'
+    import { getCaptchas } from '../../service/fetchData'
     export default {
         data(){
             return{
-                loginWay: false,//登录方式，默认短信登录
+                loginWay: false, //登录方式，默认短信登录
+                showPassword: false, // 是否显示密码
+                phoneNumber: null, //电话号码
+                mobileCode: null, //短信验证码
+                validate_token: null, //获取短信时返回的验证值，登录时需要
+                computedTime: 0, //倒数记时
+                userInfo: null, //获取到的用户信息
+                userAccount: null, //用户名
+                passWord: null, //密码
+                captchaCodeImg: null, //验证码地址
+                codeNumber: null, //验证码
+                showAlert: false, //显示提示组件
+                alertText: null, //提示的内容
             }
         },
         created(){
-
+            this.getCaptchaCode();
         },
         components:{
             headTop,
             alertTip
+        },
+        methods: {
+            changePassWordType(){
+
+            },
+            //获取验证码
+            async getCaptchaCode(){
+                let res = await getCaptchas();
+                this.captchaCodeImg = res.code;
+            },
+            mobileLogin(){
+
+            },
+
         }
     }
 </script>
 <style type="text/scss" lang="scss" scoped>
     @import "../../style/mixin";
+    .loginCotainer{
+        padding-top: 2.5rem;
+        .loginForm{
+            .input_container{
+                display: flex;
+                justify-content: space-between;
+                background-color: $fc;
+                border-bottom: 1px solid $bc;
+                padding: 0.6rem .8rem;
+                input{
+                    @include sc(.7rem, #666);
+                }
+                .button_switch{
+                    display: flex;
+                    position: relative;
+                    justify-content: center;
+                    @include wh(2rem, 0.7rem);
+                    border-radius: 0.5rem;
+                    background: #ccc;
+                    .circel_button{
+                        position: absolute;
+                        top:-0.25rem;
+                        left:-0.25rem;
+                        left:-0.25rem;
+                        background: #f1f1f1;
+                        @include wh(1.2rem, 1.2rem);
+                        border-radius: 50%;
+                    }
+                    span{
+                        @include sc(0.45rem, #fff);
+                        vertical-align: middle;
+                        line-height: 100%;
+                    }
+                }
+            }
+        }
+        .captcha_code_container{
+            .change_img{
+                display: flex;
+                @include sc(0.55rem, #666);
+                P:nth-of-type(2){
+                    color: $blue;
+                }
+            }
+        }
+    }
 </style>
