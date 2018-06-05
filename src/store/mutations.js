@@ -6,7 +6,8 @@ import {
     ADD_CART,
     REDUCE_CART,
     CLEAR_CART,
-    RECORD_SHOPDETAIL
+    RECORD_SHOPDETAIL,
+    RECORD_USERINFO
 } from './mutation-types'
 import {getItem, setItem} from '../config/myUtils'
 
@@ -14,6 +15,16 @@ export default {
     //获取用户信息
     [GET_USERINFO](state, info){
 
+    },
+    //保存用户信息
+    [RECORD_USERINFO](state, info){
+        state.info = info;
+        state.login = true;
+        let validity = 30;
+        let now = new Date();
+        now.setTime(now.getTime() + validity * 24*60*60*1000);
+        document.cookie = "USERID=" + info.user_id + ";expires=" + now.toGMTString();
+        document.cookie = "SID=CeRxBZalHSiKuGI49DL2DhXMrOakCzQNcJFg" + ";expires=" + now.toGMTString();
     },
     //保存geohash
     [SAVE_GEOHASH](state, geohash){

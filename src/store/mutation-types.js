@@ -19,3 +19,6 @@ export const CLEAR_CART = 'CLEAR_CART'
 
 //记录后台放回的商家店铺详情
 export const RECORD_SHOPDETAIL = 'RECORD_SHOPDETAIL'
+
+//记录登录后用户的信息
+export  const RECORD_USERINFO= 'RECORD_USERINFO'

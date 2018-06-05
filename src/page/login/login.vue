@@ -1,6 +1,6 @@
 <template>
     <div class="loginCotainer">
-        <head-top :head-title="loginWay? '登录' : '密码登录' " goback="true"></head-top>
+        <head-top :head-title="loginWay? '登录' : '密码登录' " goBack="true"></head-top>
         <form class="loginForm" v-if="loginWay">
             <section class="input_container phone_number">
                 <input type="text" placeholder="账号密码随便输入" name="phone" maxlength="11" v-model="phoneNumber">
@@ -78,8 +78,11 @@
             alertTip
         },
         methods: {
+            ...mapMutations([
+                'RECORD_USERINFO'
+            ]),
             changePassWordType(){
-
+                this.showPassword = !this.showPassword;
             },
             //获取验证码
             async getCaptchaCode(){
@@ -104,6 +107,15 @@
                         return;
                     }
                     this.userInfo = await accountLogin(this.userAccount, this.passWord, this.codeNumber);
+                    //如果放回不正確，則弹出提示框
+                    if(!this.userInfo.user_id){
+                        this.showAlert = true;
+                        this.alertText = this.userInfo.message;
+                        if(!this.loginWay) this.getCaptchaCode();
+                    }else{
+                        this.RECORD_USERINFO(this.userInfo);
+                        this.$router.go(-1);
+                    }
                 }
             },
 
@@ -136,8 +148,10 @@
                         top:-0.25rem;
                         left:-0.25rem;
                         left:-0.25rem;
+                        transition: all .3s;
                         background: #f1f1f1;
                         @include wh(1.2rem, 1.2rem);
+                        box-shadow: 0 0.026667rem 0.053333rem 0 rgba(0,0,0,.1);
                         border-radius: 50%;
                     }
                     span{
@@ -145,6 +159,13 @@
                         vertical-align: middle;
                         line-height: 100%;
                     }
+                }
+                .change_to_text{
+                    background: #4cd964;
+                }
+
+                .trans_to_right{
+                    transform: translateX(1.3rem);
                 }
             }
         }
@@ -190,5 +211,6 @@
             color: #3b95e9;
             margin-right: .3rem;
         }
+
     }
 </style>
