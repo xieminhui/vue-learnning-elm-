@@ -41,9 +41,9 @@
         <p class="login_tips">
             注册过的用户可凭账号密码登录
         </p>
-        <div class="login_container" @click="mobileLogin">登录<</div>
+        <div class="login_container" @click="mobileLogin">登录</div>
         <router-link to="/forget" class="to_forget" v-if="!loginWay">重置密码？</router-link>
-        <alert-tip v-if="showAlert" :showHide="showAlert" @closeTip="closeTip" :alertText="alertText"></alert-tip>
+        <alert-tip v-if="showAlert" :showHide="showAlert" @closeTip="showAlert = false" :alertText="alertText"></alert-tip>
     </div>
 </template>
 
@@ -51,7 +51,7 @@
     import headTop from '../../components/header/header.vue'
     import alertTip from '../../components/common/alertTip.vue'
     import { mapState, mapMutations } from 'vuex'
-    import { getCaptchas } from '../../service/fetchData'
+    import { getCaptchas, accountLogin} from '../../service/fetchData'
     export default {
         data(){
             return{
@@ -86,8 +86,25 @@
                 let res = await getCaptchas();
                 this.captchaCodeImg = res.code;
             },
-            mobileLogin(){
+            async mobileLogin(){
+                if(this.loginWay){
 
+                }else{
+                    if(!this.userAccount){
+                        this.showAlert = true;
+                        this.alertText = '请输入手机号/邮箱/用户名';
+                        return;
+                    }else if(!this.passWord){
+                        this.showAlert = true;
+                        this.alertText = '密码';
+                        return;
+                    }else if(!this.codeNumber){
+                        this.showAlert = true;
+                        this.alertText = '请输入验证码';
+                        return;
+                    }
+                    this.userInfo = await accountLogin(this.userAccount, this.passWord, this.codeNumber);
+                }
             },
 
         }
@@ -132,13 +149,46 @@
             }
         }
         .captcha_code_container{
-            .change_img{
+            height: 2.2rem;
+            align-items: center;
+            .img_change_img{
                 display: flex;
-                @include sc(0.55rem, #666);
-                P:nth-of-type(2){
-                    color: $blue;
+                justify-content: center;
+                img{
+                    width: 3.5rem;
+                    height: 1.5rem;
+                    margin-right: .2rem;
+                }
+                .change_img{
+                    display: flex;
+                    flex-direction: column;
+                    @include sc(0.55rem, #666);
+                    width: 2rem;
+                    P:nth-of-type(2){
+                        color: $blue;
+                        margin-top: .2rem;
+                    }
                 }
             }
+        }
+        .login_tips{
+            padding: 0.2rem .8rem;
+            @include sc(0.5rem, red);
+        }
+        .login_container{
+            margin: .5rem ;
+            padding: .5rem;
+            text-align: center;
+            background-color: #4cd964;
+            color: #ffffff;
+            font-size: 0.7rem;
+            border-radius: .25rem;
+        }
+        .to_forget{
+            float: right;
+            font-size: 0.6rem;
+            color: #3b95e9;
+            margin-right: .3rem;
         }
     }
 </style>
