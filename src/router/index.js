@@ -3,6 +3,7 @@ import App from '../App'
 const home = r => require.ensure([], () => r(require('../page/home/home')), 'home');
 const city = r => require.ensure([], () => r(require('../page/city/city')), 'city');
 const login = r => require.ensure([], () => r(require('../page/login/login')), 'login');
+const forget = r => require.ensure([], () => r(require('../page/forget/forget')), 'forget');
 const msite = r => require.ensure([], () => r(require('../page/msite/msite')), 'msite');
 const shop = r => require.ensure([], () => r(require('../page/shop/shop')), 'shop');
 const foodDetail = r => require.ensure([], () => r(require('../page/shop/foodDetail')), 'foodDetail');
@@ -29,6 +30,11 @@ export default [{
         {
             path: '/login',
             component: login
+        },
+        //修改密码
+        {
+            path:'/forget',
+            component:forget
         },
         //点击城市
         {
