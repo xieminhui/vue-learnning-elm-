@@ -12,9 +12,22 @@ import {
 import {getItem, setItem} from '../config/myUtils'
 
 export default {
-    //获取用户信息
+    //获取用户信息，登录后去后台拿用户登录信息
     [GET_USERINFO](state, info){
-
+        if(state.userInfo && (state.userInfo.username != info.username)){
+            return;
+        }
+        if(!state.login)return;
+        if(!info.message){
+            state.userInfo = {...info};
+            let validity = 30;
+            let now = new Date();
+            now.setTime(now.getTime() + validity * 24 * 60 * 60 * 1000);
+            document.cookie = "USERID=" + info.user_id + ";expires=" + now.toGMTString();
+            document.cookie = "SID=CeRxBZalHSiKuGI49DL2DhXMrOakCzQNcJFg" + ";expires=" + now.toGMTString();
+        }else{
+            state.userInfo = null;
+        }
     },
     //保存用户信息
     [RECORD_USERINFO](state, info){

@@ -80,4 +80,9 @@
             font-weight: bold;
         }
     }
+    .user_avatar{
+        fill: #fff;
+        width: 0.8rem;
+        height: 0.8rem;
+    }
 </style>
