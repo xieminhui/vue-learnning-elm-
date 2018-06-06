@@ -113,3 +113,8 @@ export const getCaptchas = () => fetch('v1/captchas', {}, 'post');
 * 账号密码登录
 * */
 export const accountLogin = (username, password, captcha_code) => fetch('/v2/login', {username, password, captcha_code}, 'POST');
+
+/*
+*  重置密码
+* */
+export const changePassWord = (username, oldpassWord, newpassword , confirmpassword, captcha_code) => fetch('/v2/changepassword', {username, oldpassWord, newpassword , confirmpassword, captcha_code}, 'POST')

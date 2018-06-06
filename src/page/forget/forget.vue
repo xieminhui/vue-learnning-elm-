@@ -33,6 +33,8 @@
 <script>
     import headTop from '../../components/header/header.vue'
     import alertTip from '../../components/common/alertTip.vue'
+    import { getCaptchas, changePassWord} from '../../service/fetchData'
+
     export default {
         data(){
             return{
@@ -54,7 +56,7 @@
 
         },
         created(){
-
+            this.getCaptchaCode();
         },
         components:{
             headTop,
@@ -64,11 +66,98 @@
 
         },
         methods: {
-
+            async getCaptchaCode(){
+                let res = await getCaptchas();
+                this.captchaCodeImg = res.code;
+            },
+            inputPhone(){
+                if(/.*/gi.test(this.phoneNumber)){
+                    this.rightPhoneNumber = true;
+                }else{
+                    this.rightPhoneNumber = false;
+                }
+            },
+            async resetButton(){
+                if(!this.phoneNumber){
+                    this.showAlert = true;
+                    this.alertText = '请输入正确的账号';
+                    return
+                }else if(!this.oldPassWord){
+                    this.showAlert = true;
+                    this.alertText = '请输入旧密码';
+                    return
+                }else if(!this.newPassWord){
+                    this.showAlert = true;
+                    this.alertText = '请输入新密码';
+                    return
+                }else if(!this.confirmPassWord){
+                    this.showAlert = true;
+                    this.alertText = '请输入确认密码';
+                    return
+                }else if(this.newPassWord !== this.confirmPassWord){
+                    this.showAlert = true;
+                    this.alertText = '两次输入密码不一致';
+                    return
+                }else if(!this.mobileCode){
+                    this.showAlert = true;
+                    this.alertText = '请输入验证码';
+                    return
+                }
+                let res = changePassWord(this.phoneNumber, this.oldPassWord, this.newPassWord, this.confirmPassWord, this.mobileCode);
+                if(res.message){
+                    this.showAlert = true;
+                    this.alertText = res.message;
+                    this.getCaptchaCode();
+                    return
+                }else{
+                    this.showAlert = true;
+                    this.alertText = '密码修改成功';
+                }
+            }
         }
     }
 </script>
 
 <style lang="scss" scoped type="text/scss">
-
+    @import "../../style/mixin";
+    .restContainer{
+        padding-top: 2.5rem;
+        .restForm{
+            .input_container{
+                @include sc(0.8rem, #666);
+                padding: 0.4rem 1rem;
+                background-color: $fc;
+                margin-top: 0.05rem;
+            }
+            input{
+                font-size: 0.75rem;
+            }
+            .captcha_code_container{
+                display: flex;
+                justify-content: space-between;
+                .img_change_img{
+                    display: flex;
+                    img{
+                        width: 2.5rem;
+                        margin-right: 0.2rem;
+                    }
+                    .change_img{
+                        font-size: 0.6rem;
+                        p:nth-of-type(2){
+                            color: $blue;
+                        }
+                    }
+                }
+            }
+        }
+        .login_container{
+            margin: .5rem ;
+            padding: .5rem;
+            text-align: center;
+            background-color: #4cd964;
+            color: #ffffff;
+            font-size: 0.7rem;
+            border-radius: .25rem;
+        }
+    }
 </style>
