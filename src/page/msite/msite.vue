@@ -34,6 +34,7 @@
             </header>
             <shop-list v-if="hasGetData" :geohash="geohash"></shop-list>
         </div>
+        <foot-guide></foot-guide>
     </div>
 </template>
 
@@ -42,6 +43,7 @@
     import 'src/plugins/swiper.min.js'
     import 'src/style/swiper.min.css'
     import headTop from '../../components/header/header'
+    import footGuide from '../../components/footer/footGuide.vue'
     import shopList from '../../components/common/shoplist'
     import { guessCity, fetchCityinfoBygeohash, fetchFoodType} from '../../service/fetchData'
     import {imgBaseUrl} from "../../config/env"
@@ -91,7 +93,8 @@
         },
         components:{
             headTop,
-            shopList
+            shopList,
+            footGuide
         },
         methods:{
             gotoHome(){
