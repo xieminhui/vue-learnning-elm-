@@ -35,11 +35,11 @@
                         <span class="info-data-bottom">我的余额</span>
                     </router-link>
                     <router-link to="/benefit" tag="li" class="info-data-link">
-                        <span class="info-data-top"><b>{{count}}</b>元</span>
+                        <span class="info-data-top"><b>{{count}}</b>个</span>
                         <span class="info-data-bottom">我的优惠</span>
                     </router-link>
                     <router-link to="/points" tag="li" class="info-data-link">
-                        <span class="info-data-top"><b>{{pointNumber}}</b>元</span>
+                        <span class="info-data-top"><b>{{pointNumber}}</b>分</span>
                         <span class="info-data-bottom">我的积分</span>
                     </router-link>
                 </ul>
@@ -62,7 +62,7 @@
                     </div>
                 </router-link>
                 <!--积分商城-->
-                <a href="https://home.m.duiba.com.cn/#/chome/index">
+                <a href="https://home.m.duiba.com.cn/#/chome/index" class="myorder">
                     <aside>
                         <svg fill="#fc7b53">
                             <use xmlns:xlink="http://www.w3.org/1999/xlnk" xlink:href="#point"></use>
@@ -174,12 +174,16 @@
                 if(this.userInfo &&  this.userInfo.user_id){
                     this.avatar = this.userInfo.avatar;
                     this.username = this.userInfo.username;
-                    this.mobile = this.userInfo.mobile;
+                    this.mobile = this.userInfo.mobile || '暂无绑定手机号';
                     this.balance = this.userInfo.balance;
                     this.count= this.userInfo.gift_amount;
                     this.pointNumber = this.userInfo.point;
-
                 }
+            }
+        },
+        watch: {
+            userInfo:function (value) {
+                this.initData();
             }
         }
     }
@@ -238,7 +242,87 @@
             }
         }
         .info-data{
-            margin-bottom: .2rem;
+            margin-bottom: .4rem;
+            background-color: $fc;
+            .clear{
+                display: flex;
+                li{
+                    display: flex;
+                    flex-direction: column;
+                    justify-content: center;
+                    align-items: center;
+                    padding: 0.5rem 0;
+                    width: 33.33%;
+                    color: #666;
+                    border-right: 1px solid $bc;
+                    .info-data-top{
+                        font-size: 0.6rem;
+                        b{
+                            font-weight: bolder;
+                            font-size: 1.2rem;
+                        }
+                    }
+                    .info-data-bottom{
+                        font-size: 0.6rem;
+                    }
+                }
+                .info-data-link:nth-of-type(1){
+                    .info-data-top{
+                        b{
+                            color: #f90;
+                        }
+                    }
+
+                }
+                .info-data-link:nth-of-type(2){
+                    .info-data-top{
+                        b{
+                            color: #ff5f3e;
+                        }
+                    }
+
+                }
+                .info-data-link:nth-of-type(3){
+                    border: 0;
+                    .info-data-top{
+                        b{
+                            color: #6ac20b;
+                        }
+                    }
+
+                }
+            }
+        }
+        .profile-1reTe{
+            margin-bottom: .4rem;
+            background-color: $fc;
+            .myorder{
+                display: flex;
+                align-items: center;
+                padding: .3rem .8rem;
+                border-bottom: 1px solid $bc;
+                aside{
+                    svg{
+                        @include wh(.8rem, .8rem);
+                    }
+                }
+                .myorder-div{
+                    display: flex;
+                    flex: 1;
+                    justify-content: space-between;
+                    margin-left: .4rem;
+                    span{
+                        @include sc(0.7rem, #333);
+                    }
+                    .myorder-divsvg{
+                        align-items: flex-end;
+                        svg{
+                            @include wh(.6rem, .6rem);
+                        }
+
+                    }
+                }
+            }
         }
     }
 </style>
