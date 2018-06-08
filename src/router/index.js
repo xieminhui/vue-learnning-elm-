@@ -12,6 +12,7 @@ const shopSafe = r => require.ensure([], () => r(require('../page/shop/shopSafe'
 const confirmOrder = r => require.ensure([], () => r(require('../page/confirmOrder/confirmOrder')), 'confirmOrder')
 const chooseAddress  = r => require.ensure([], () => r(require('../page/confirmOrder/chooseAddress')), 'chooseAddress')
 const profile  = r => require.ensure([], () => r(require('../page/profile/profile')), 'profile')
+const info  = r => require.ensure([], () => r(require('../page/profile/info')), 'info')
 
 export default [{
     path: '/',
@@ -76,6 +77,10 @@ export default [{
         {
             path : '/profile',
             component : profile,
+            children:[{
+                path:'info',//个人信息页
+                component: info,
+            }]
         }
     ]
 }]
