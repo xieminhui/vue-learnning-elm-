@@ -131,7 +131,7 @@
         </section>
         <foot-guide></foot-guide>
         <transition name="router-slid" mode="out-in">
-            <router-link></router-link>
+            <router-view></router-view>
         </transition>
     </div>
 </template>
@@ -323,6 +323,13 @@
                     }
                 }
             }
+        }
+        .router-slid-enter-active,.router-slid-leave-active{
+            transition: all .4s;
+        }
+        .router-slid-enter,.router-slid-leave-to{
+            transform: translate3d(2rem, 0, 0);
+            opacity: 0;
         }
     }
 </style>
