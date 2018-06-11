@@ -3,7 +3,7 @@
         <head-top head-title="账户信息" go-back="true"></head-top>
         <section class="profile-info">
             <section class="headportrait">
-                <input type="file" class="profileinfopanel-upload" @change="uploadAvator">
+                <input type="file" class="profileinfopanel-upload" @change="uploadAvatar">
                 <h2>头像</h2>
                 <div class="headportrait-div">
                     <img v-if="userInfo" :src="imgBaseUrl + userInfo.avatar" class="headportrait-div-top">
@@ -106,10 +106,20 @@
     import alertTip from '../../components/common/alertTip.vue'
     import { shopListImgBaseUrl } from '../../config/env'
     import { mapState } from 'vuex'
+    import { uploadImg } from '../../service/fetchData'
     export default {
         data(){
             return{
-                imgBaseUrl: shopListImgBaseUrl
+                imgBaseUrl: shopListImgBaseUrl,
+                username:'',    //用户名
+                resetname:'', //重置用户名
+                infotel:'',     //用户手机
+                avatar:'',      //用户头像
+                show:false,     //显示提示框
+                isEnter:true,  //是否登录
+                isLeave:false, //是否退出
+                showAlert: false,
+                alertText: null,
             }
         },
         created(){
@@ -126,6 +136,32 @@
         components : {
             headTop,
             alertTip
+        },
+        methods: {
+            async uploadAvatar(){
+                //上传头像
+                if(this.userInfo){
+                    let input = document.querySelector('.profileinfopanel-upload');
+                    let data = new FormData();
+                    data.append('file', input.files[0]);
+                    try {
+                        let res = await uploadImg(this.userInfo.user_id, data);
+                        if(res.status == 1){
+                            this.userInfo.avatar = res.image_path;
+                        }
+                    }catch (error){
+                        this.showAlert = true;
+                        this.alertText = '上传失败';
+                        throw new Error(error);
+                    }
+                }
+            },
+            changePhone(){
+
+            },
+            exitlogin(){
+
+            }
         }
     }
 </script>

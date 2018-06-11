@@ -118,3 +118,8 @@ export const accountLogin = (username, password, captcha_code) => fetch('/v2/log
 *  重置密码
 * */
 export const changePassWord = (username, oldpassWord, newpassword , confirmpassword, captcha_code) => fetch('/v2/changepassword', {username, oldpassWord, newpassword , confirmpassword, captcha_code}, 'POST')
+
+/*
+*  上传头像
+* */
+export const uploadImg = (user_id, data) => fetch('/eus/v1/users/' + user_id + '/avatar', data, 'POST');
