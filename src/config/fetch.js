@@ -33,7 +33,6 @@ export default async(url = '', data = {}, type = 'GET', method = 'fetch') => {
             method: type,
             headers: {
                 'Accept': 'application/json',
-                'Content-Type': 'application/json'
             },
             mode: "cors",
             cache: "force-cache"
@@ -41,7 +40,7 @@ export default async(url = '', data = {}, type = 'GET', method = 'fetch') => {
 
         if (type == 'POST') {
             Object.defineProperty(requestConfig, 'body', {
-                value: JSON.stringify(data)
+                value: data
             })
         }
 
