@@ -7,7 +7,8 @@ import {
     REDUCE_CART,
     CLEAR_CART,
     RECORD_SHOPDETAIL,
-    RECORD_USERINFO
+    RECORD_USERINFO,
+    RETSET_NAME
 } from './mutation-types'
 import {getItem, setItem} from '../config/myUtils'
 
@@ -122,5 +123,9 @@ export default {
     //记录后台返回的商家店铺详情
     [RECORD_SHOPDETAIL](state, info){
         state.shopDetail = info;
+    },
+    //修改用户名
+    [RETSET_NAME](state, username){
+        state.userInfo = Object.assign({}, state.userInfo, {username});
     }
 }

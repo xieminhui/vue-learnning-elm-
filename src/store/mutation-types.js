@@ -22,3 +22,6 @@ export const RECORD_SHOPDETAIL = 'RECORD_SHOPDETAIL'
 
 //记录登录后用户的信息
 export  const RECORD_USERINFO= 'RECORD_USERINFO'
+
+//记录用户名
+export const RETSET_NAME = 'RETSET_NAME'
