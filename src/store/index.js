@@ -18,6 +18,7 @@ const state = {
     remarkText: null,//可选备注内容
     inputText:'',//输入备注内容
     removeAddress:[],//移除地址
+    addAddress:'',//新增地址
 }
 
 export default new Vuex.Store({
