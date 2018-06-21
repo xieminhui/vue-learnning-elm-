@@ -17,6 +17,7 @@ const state = {
     choosedAddress: null,//选择地址
     remarkText: null,//可选备注内容
     inputText:'',//输入备注内容
+    removeAddress:[],//移除地址
 }
 
 export default new Vuex.Store({
