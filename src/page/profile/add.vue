@@ -81,16 +81,25 @@
         },
         methods: {
             inputThing(){
-
+                (!this.message) ? this.verify = true : this.verify = false;
+                this.bindThing();
             },
             inputThingthree(){
 
             },
             inputThingfour(){
-
+                (!this.mesthree) ? this.telenum = true : this.verifyfour = false;
+                this.bindThing();
             },
             inputThingfive(){
 
+            },
+            bindThing(){
+                if(this.message && this.mesthree && !this.verifyfour){
+                    this.butpart = false;
+                }else{
+                    this.butpart = true;
+                }
             },
             submiThimg(){
 
