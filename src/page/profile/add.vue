@@ -85,14 +85,38 @@
                 this.bindThing();
             },
             inputThingthree(){
-
+                this.verifythree = true;
+                if(this.mesthree.length ==0){
+                    this.sendaddress = '请填写详细的送餐地址';
+                }else if(this.mesthree.length >0 && this.mesthree.length <=2){
+                    this.sendaddress = '送餐地址太短了，不能辨识';
+                }else{
+                    this.sendaddress = '';
+                    this.verifythree = false;
+                }
+                this.bindThing();
             },
             inputThingfour(){
-                (!this.mesthree) ? this.telenum = true : this.verifyfour = false;
+                this.verifyfour = true;
+                if((/^[1][358][0-9]{9}$/).test(this.telenum)){
+                    this.verifyfour = false;
+                }else if(this.telenum == ''){
+                    this.telephone = "手机号不能为空"
+                }else{
+                    this.telephone = "请输入正确的手机号"
+                }
                 this.bindThing();
             },
             inputThingfive(){
-
+                this.verifyfour = true;
+                if((/^[1][358][0-9]{9}$/).test(this.telenum)){
+                    this.verifyfour = false;
+                }else if(this.telenum == ''){
+                    this.telephone = "手机号不能为空"
+                }else{
+                    this.telephone = "请输入正确的手机号"
+                }
+                this.bindThing();
             },
             bindThing(){
                 if(this.message && this.mesthree && !this.verifyfour){
